@@ -41,7 +41,11 @@
     "js-cookie": "^3.0.5",
     "lucide": "^0.503.0",
     "lucide-react": "^0.503.0",
+<<<<<<< HEAD
+    "next": "^16.0.8",
+=======
     "next": "15.3.6",
+>>>>>>> dcf27b511b6531aab703dde82618c7075d8918e2
     "next-cloudinary": "^6.16.0",
     "next-sitemap": "^4.2.3",
     "radix-ui": "^1.3.4",
