@@ -28,32 +28,25 @@ export default function Home() {
       <main>
         <section className="slideshow relative flex flex-col h-screen md:h-[70vh] xl:h-[95vh] justify-center overflow-x-hidden">
           {/* Background Video - Cloudinary Optimized */}
-
-          {/* <Image
-            className="absolute inset-0 w-full h-full object-cover z-[-2]"
-            width={600}
-            height={400}
-            src="/assets/images/felicity_christmas_mobile.jpeg"
-            alt="Felicity Solar Background"
-          /> */}
-
-          <picture>
+          <video
+            className="absolute inset-0 w-full h-full object-cover z-[-1]"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="none" // Do not load until needed
+            poster="/assets/images/landing_page_hero1.png" // Preview image
+            id="hero-video"
+          >
+            {/*  <source src="/assets/vid/bg_video.mp4" type="video/mp4" /> */}
             <source
-              srcSet="/assets/images/felicity_christmas_mobile.jpeg"
-              media="(max-width: 767px)"
+              src="https://res.cloudinary.com/dqkc8vle0/video/upload/v1757957869/felicity_bg-video_dacbci.mp4"
+              type="video/mp4"
             />
-            <source
-              srcSet="/assets/images/landscape chrismas.png"
-              media="(min-width: 768px)"
-            />
-            <img
-              src="/assets/images/landscape chrismas.png"
-              className="object-cover object-top overflow-hidden w-full h-screen md:h-[70vh] xl:h-[95vh] absolute inset-0 z-[-2]"
-              alt="Example image"
-            />
-          </picture>
+            Your browser does not support the video tag.
+          </video>
 
-          <div className="absolute top-0 left-0 w-full bg-black opacity-0 h-screen md:h-[70vh] xl:h-[95vh] z-10" />
+          <div className="absolute top-0 left-0 w-full bg-black opacity-70 h-screen md:h-[70vh] xl:h-[95vh] z-10" />
           <Navbar
             linkClassName="text-white"
             className="mx-auto top-0 absolute w-full lg:flex z-50 text-black"
@@ -61,32 +54,43 @@ export default function Home() {
           />
 
           <div className="w-[90%] xl:w-[80%] 2xl:w-[75%] mx-auto gap-y-20 lg:gap-y-8 flex flex-col z-40">
-            {/*    <div className="flex flex-col gap-y-6">
+            <div className="flex flex-col gap-y-6">
               <div className="flex flex-col">
-                <h1 className="text-4xl md:text-5xl block md:leading-14 xl:leading-16 lg:text-6xl lg:flex gap-y-2 flex-col font-semibold text-white w-full xl:w-[90%] md:w-full" data-aos="zoom-in">
-                  <span className="lg:block">Power Your Home or {" "}</span>
+                <h1
+                  className="text-4xl md:text-5xl block md:leading-14 xl:leading-16 lg:text-6xl lg:flex gap-y-2 flex-col font-semibold text-white w-full xl:w-[90%] md:w-full"
+                  data-aos="zoom-in"
+                >
+                  <span className="lg:block">Power Your Home or </span>
                   <span className="lg:block">
-                    Business <span className="text-primary"> with Reliable </span>
+                    Business{" "}
+                    <span className="text-primary"> with Reliable </span>
                   </span>
                   <span className="md:block">Solar Energy</span>
                 </h1>
               </div>
-              <p className="text-white font-medium text-lg" data-aos="fade-right">Affordable, sustainable solar solutions made for Nigeria</p>
-            </div> 
+              <p
+                className="text-white font-medium text-lg"
+                data-aos="fade-right"
+              >
+                Affordable, sustainable solar solutions made for Nigeria
+              </p>
+            </div>
 
-            <div className="flex gap-x-10 flex-col md:flex-row md:items-center" data-aos="slide-left">
+            <div
+              className="flex gap-x-10 flex-col md:flex-row md:items-center"
+              data-aos="slide-left"
+            >
               <LinkButton
-                className="transition-all duration-[250ms] hover:scale-105 hover:bg-[#363f48] hover:text-white"
+                className="transition-all duration-250 hover:scale-105 hover:bg-[#363f48] hover:text-white"
                 variant={"primary"}
                 href="https://api.whatsapp.com/send/?text=Hi%20Felicity%20Solar,%20I%20need%20a%20free%20quote&phone=2348171479561&utm_source=website&utm_medium=cta&utm_campaign=whatsapp"
                 size={"lg"}
                 label="Get a Free Quote"
               />
               <div className="flex items-center">
-                {/* SVG and contact info remains unchanged 
+                {/* SVG and contact info remains unchanged */}
               </div>
             </div>
-          */}
           </div>
         </section>
 
