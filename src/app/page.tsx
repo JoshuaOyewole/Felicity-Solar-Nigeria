@@ -1,18 +1,17 @@
 import FAQ from "@/components/ui/faq";
 import LinkButton from "@/components/ui/Link";
-import { blogs } from "@/lib/data";
 import { MoveRight } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Navbar from "@/components/layouts/navbar/Navbar";
 import Testimonials from "@/components/sections/testimonial";
-import Article from "@/components/ui/article";
 import { WhatsApp } from "@/lib/icons";
 import Link from "next/link";
 import TabSection from "@/components/sections/product-tabs/TabSection";
 import AOSInitializer from "@/components/AOSInitializer";
 import Footer from "@/components/layouts/footer";
 import React, { Suspense } from "react";
+import Articles from "@/components/page-sections/Articles";
 
 export const metadata: Metadata = {
   title: "Home - Felicity Solar",
@@ -246,40 +245,7 @@ export default function Home() {
           </div>
         </section>
         {/* SECTION FIVE [BLOG] */}
-        <section className="py-18 md:py-10 lg:py-32 flex-col flex gap-y-22">
-          <div className="flex gap-y-26 mx-auto w-[90%] 2xl:w-[75%] gap-x-26 flex-col ">
-            <div className="flex justify-between md:items-center flex-col md:flex-row gap-y-8 md:gap-y-0">
-              <h2
-                className=" text-[#101928] text-2xl md:text-3xl md:text-center font-bold"
-                data-aos="zoom-in"
-              >
-                The Future of Solar Power
-              </h2>
-              <LinkButton
-                className="max-w-[160px] md:max-w-[214px] max-h-12 text-grey-800 border border-grey-700 flex items-center"
-                variant={"white"}
-                href="/blog"
-                label="View all "
-                icon={<MoveRight className="ml-2" />}
-              />
-            </div>
-            <div className="grid lg:grid-cols-2 xl:grid-cols-3 grid-cols-1 gap-x-10 gap-y-10 lg:gap-y-28 md:gap-y-16 xl:gap-y-0">
-              {blogs.length > 1 ? (
-                blogs.map((b) => (
-                  <Article
-                    key={b.title}
-                    title={b.title}
-                    category={b.category}
-                    cover={b.cover}
-                    url="/blog/default"
-                  />
-                ))
-              ) : (
-                <p className="text-grey-700 ">No article currently available</p>
-              )}
-            </div>
-          </div>
-        </section>
+        <Articles />
 
         <section className="py-18 md:py-10 lg:py-32 ">
           <div className="flex gap-y-12 mx-auto w-[95%] md:w-[90%] 2xl:w-[75%] flex-col ">
