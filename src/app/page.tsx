@@ -13,6 +13,28 @@ import Footer from "@/components/layouts/footer";
 import React, { Suspense } from "react";
 import Articles from "@/components/page-sections/Articles";
 
+const productionPillars = [
+  {
+    title: "Manufacturing Excellence",
+    description:
+      "Modern factory lines ensure consistent quality across panels, inverters, and batteries.",
+  },
+  {
+    title: "Nationwide Distribution",
+    description:
+      "Robust logistics and regional warehouses for fast, reliable delivery.",
+  },
+  {
+    title: "Retail & Project Sales",
+    description:
+      "Dedicated teams for residential, commercial, and mega‑project supply.",
+  },
+  {
+    title: "After‑Sales Support",
+    description:
+      "Service centers and certified technicians for maintenance and warranty care.",
+  },
+];
 export const metadata: Metadata = {
   title: "Home - Felicity Solar",
   description:
@@ -59,26 +81,26 @@ export default function Home() {
                   className="text-4xl md:text-5xl block md:leading-14 xl:leading-16 lg:text-6xl lg:flex gap-y-2 flex-col font-semibold text-white w-full xl:w-[90%] md:w-full"
                   data-aos="zoom-in"
                 >
-                  <span className="lg:block">Power Your Home or </span>
                   <span className="lg:block">
-                    Business{" "}
-                    <span className="text-primary"> with Reliable </span>
+                    Power homes, businesses, and{" "}
                   </span>
-                  <span className="md:block">Solar Energy</span>
+                  <span className="lg:block">
+                    mega projects with a{" "}
+                    <span className="text-primary"> brand </span>
+                  </span>
+                  <span className="md:block">you can trust.</span>
                 </h1>
               </div>
               <p
                 className="text-white font-medium text-lg"
                 data-aos="fade-right"
               >
-                Affordable, sustainable solar solutions made for Nigeria
+                Felicity Solar delivers end-to-end solutions — production,
+                sales, installation, and after-sales support nationwide.
               </p>
             </div>
 
-            <div
-              className="flex gap-x-10 flex-col md:flex-row md:items-center"
-              data-aos="slide-left"
-            >
+            <div className="flex gap-4 flex-col sm:flex-row">
               <LinkButton
                 className="transition-all duration-250 hover:scale-105 hover:bg-[#363f48] hover:text-white"
                 variant={"primary"}
@@ -86,9 +108,12 @@ export default function Home() {
                 size={"lg"}
                 label="Get a Free Quote"
               />
-              <div className="flex items-center">
-                {/* SVG and contact info remains unchanged */}
-              </div>
+              <Link
+                href="/products"
+                className="flex items-center gap-2 text-white/80 hover:text-white"
+              >
+                Browse products <MoveRight size={18} />
+              </Link>
             </div>
           </div>
         </section>
@@ -161,6 +186,56 @@ export default function Home() {
             <TabSection />
           </div>
         </section>
+        <section className="py-20 md:py-28 bg-[#101928]">
+          <div className="mx-auto w-[90%] 2xl:w-[75%] grid gap-10 lg:grid-cols-[0.9fr_1.1fr] items-center">
+            <div
+              className="text-white flex flex-col gap-6"
+              data-aos="fade-right"
+            >
+              <h3 className="text-sm italize italic text-primary">
+                Production & sales
+              </h3>
+              <h2 className="text-3xl md:text-4xl font-bold">
+                From factory floor to field installation
+              </h2>
+              <p className="text-white/70 text-base">
+                We control the full pipeline — manufacturing, distribution, and
+                retail sales — so customers get consistent quality and after-
+                sales support.
+              </p>
+              <div className="grid gap-4 sm:grid-cols-2">
+                {productionPillars.map((pillar) => (
+                  <div
+                    key={pillar.title}
+                    className="rounded-xl border border-white/10 bg-white/5 p-4"
+                  >
+                    <p className="font-semibold">{pillar.title}</p>
+                    <p className="text-sm text-white/70">
+                      {pillar.description}
+                    </p>
+                  </div>
+                ))} 
+              </div>
+            </div>
+            <div className="grid gap-4" data-aos="zoom-in">
+              <Image
+                src="/assets/images/production_line.jpg"
+                alt="Production line"
+                width={520}
+                height={360}
+                className="rounded-2xl object-cover"
+              />
+              <Image
+                src="/assets/images/warehouse_products.png"
+                alt="Warehouse products"
+                width={520}
+                height={280}
+                className="rounded-2xl object-cover"
+              />
+            </div>
+          </div>
+        </section>
+
         {/* SECTION THREE */}
         <section className="py-18 md:py-32 ">
           <div className="flex gap-y-12 mx-auto w-[95%] md:w-[90%] 2xl:w-[75%] gap-x-26 flex-col ">
@@ -249,10 +324,7 @@ export default function Home() {
 
         <section className="py-18 md:py-10 lg:py-32 ">
           <div className="flex gap-y-12 mx-auto w-[95%] md:w-[90%] 2xl:w-[75%] flex-col ">
-            <div
-              className="flex justify-center items-center flex-col bg-cover bg-center bg-no-repeat bg-[url('/assets/images/cta_section.png')] w-full min-h-[700px] md:min-h-[500px] rounded-lg py-12 px-6 md:px-2 lg:px-22 gap-y-8"
-              data-aos="zoom-in-right"
-            >
+            <div className="flex justify-center items-center flex-col bg-cover bg-center bg-no-repeat bg-[url('/assets/images/cta_section.png')] w-full min-h-[700px] md:min-h-[500px] rounded-lg py-12 px-6 md:px-2 lg:px-22 gap-y-8">
               <div className="flex flex-col gap-y-3">
                 <h2 className="font-bold text-2xl md:text-3xl lg:text-4xl  text-white text-center lg:text-left">
                   Ready to Enjoy Uninterrupted Power?
