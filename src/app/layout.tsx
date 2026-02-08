@@ -5,7 +5,7 @@ import ReactQueryProvider from "./provider";
 import { ToastContainer } from 'react-toastify';
 import Script from "next/script";
 import { Analytics } from "@vercel/analytics/next"
-import { SpeedInsights } from "@vercel/speed-insights/next"
+//import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -57,7 +57,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         </ReactQueryProvider>
         <ToastContainer />
         <Analytics />
-        <SpeedInsights />
+        {/* <SpeedInsights /> */}
       </body>
     </html>
   );
