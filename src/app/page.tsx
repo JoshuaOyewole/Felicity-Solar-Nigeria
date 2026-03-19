@@ -47,9 +47,10 @@ export default function Home() {
       <AOSInitializer />
 
       <main>
-        <section className="slideshow relative flex flex-col h-screen md:h-[70vh] xl:h-[95vh] justify-center overflow-x-hidden">
-          {/* Background Video - Cloudinary Optimized */}
-          <video
+       {/*    <section className="slideshow relative flex flex-col h-screen md:h-[70vh] xl:h-[95vh] justify-center overflow-x-hidden">
+         // Background Video - Cloudinary Optimized
+       
+         <video
             className="absolute inset-0 w-full h-full object-cover z-[-1]"
             autoPlay
             muted
@@ -59,7 +60,7 @@ export default function Home() {
             poster="/assets/images/landing_page_hero1.png" // Preview image
             id="hero-video"
           >
-            {/*  <source src="/assets/vid/bg_video.mp4" type="video/mp4" /> */}
+            <source src="/assets/vid/bg_video.mp4" type="video/mp4" /> 
             <source
               src="https://res.cloudinary.com/dqkc8vle0/video/upload/v1757957869/felicity_bg-video_dacbci.mp4"
               type="video/mp4"
@@ -67,6 +68,16 @@ export default function Home() {
             Your browser does not support the video tag.
           </video>
 
+
+          
+  <Image
+    src="/assets/images/landing_page_hero1.png"
+    alt="Hero background"
+    fill
+    priority
+    sizes="100vw"
+    className="object-cover z-[-1]"
+  />
           <div className="absolute top-0 left-0 w-full bg-black opacity-70 h-screen md:h-[70vh] xl:h-[95vh] z-10" />
           <Navbar
             linkClassName="text-white"
@@ -117,7 +128,32 @@ export default function Home() {
             </div>
           </div>
         </section>
+ */}
 
+        <section className="relative flex flex-col h-screen md:h-[70vh] xl:h-[95vh] justify-center overflow-x-hidden">
+
+  <Image
+    src="/assets/images/landing_page_hero1.png"
+    alt="Hero background"
+    fill
+    priority
+    sizes="100vw"
+    className="object-cover z-0"
+  />
+
+  <div className="absolute inset-0 bg-black/70 z-10" />
+
+  <Navbar
+    linkClassName="text-white"
+    className="mx-auto top-0 absolute w-full lg:flex z-50 text-black"
+    variant="white"
+  />
+
+  <div className="relative z-40 w-[90%] xl:w-[80%] 2xl:w-[75%] mx-auto gap-y-20 lg:gap-y-8 flex flex-col">
+    {/* content */}
+  </div>
+
+</section>
         {/* SECTION ONE */}
         <section className="flex flex-col lg:flex-row gap-y-20 py-18 md:py-32 mx-auto w-[90%] 2xl:w-[75%] md:gap-x-8 lg:gap-x-26">
           <div
