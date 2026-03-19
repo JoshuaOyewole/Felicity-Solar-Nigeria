@@ -47,7 +47,7 @@ export default function Home() {
       <AOSInitializer />
 
       <main>
-       {/*    <section className="slideshow relative flex flex-col h-screen md:h-[70vh] xl:h-[95vh] justify-center overflow-x-hidden">
+        {/*    <section className="slideshow relative flex flex-col h-screen md:h-[70vh] xl:h-[95vh] justify-center overflow-x-hidden">
          // Background Video - Cloudinary Optimized
        
          <video
@@ -132,28 +132,69 @@ export default function Home() {
 
         <section className="relative flex flex-col h-screen md:h-[70vh] xl:h-[95vh] justify-center overflow-x-hidden">
 
-  <Image
-    src="/assets/images/landing_page_hero1.png"
-    alt="Hero background"
-    fill
-    priority
-    sizes="100vw"
-    className="object-cover z-0"
-  />
+          <Image
+            src="/assets/images/landing_page_hero1.png"
+            alt="Hero background"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover z-0"
+          />
 
-  <div className="absolute inset-0 bg-black/70 z-10" />
+          <div className="absolute inset-0 bg-black/70 z-10" />
 
-  <Navbar
-    linkClassName="text-white"
-    className="mx-auto top-0 absolute w-full lg:flex z-50 text-black"
-    variant="white"
-  />
+          <Navbar
+            linkClassName="text-white"
+            className="mx-auto top-0 absolute w-full lg:flex z-50 text-black"
+            variant="white"
+          />
 
-  <div className="relative z-40 w-[90%] xl:w-[80%] 2xl:w-[75%] mx-auto gap-y-20 lg:gap-y-8 flex flex-col">
-    {/* content */}
-  </div>
 
-</section>
+            <div className="w-[90%] xl:w-[80%] 2xl:w-[75%] mx-auto gap-y-20 lg:gap-y-8 flex flex-col z-40">
+              <div className="flex flex-col gap-y-6">
+                <div className="flex flex-col">
+                  <h1
+                    className="text-4xl md:text-5xl block md:leading-14 xl:leading-16 lg:text-6xl lg:flex gap-y-2 flex-col font-semibold text-white w-full xl:w-[90%] md:w-full"
+                    data-aos="zoom-in"
+                  >
+                    <span className="lg:block">
+                      Power homes, businesses, and{" "}
+                    </span>
+                    <span className="lg:block">
+                      mega projects with a{" "}
+                      <span className="text-primary"> brand </span>
+                    </span>
+                    <span className="md:block">you can trust.</span>
+                  </h1>
+                </div>
+                <p
+                  className="text-white font-medium text-lg"
+                  data-aos="fade-right"
+                >
+                  Felicity Solar delivers end-to-end solutions — production,
+                  sales, installation, and after-sales support nationwide.
+                </p>
+              </div>
+
+              <div className="flex gap-4 flex-col sm:flex-row">
+                <LinkButton
+                  className="transition-all duration-250 hover:scale-105 hover:bg-[#363f48] hover:text-white"
+                  variant={"primary"}
+                  href="https://api.whatsapp.com/send/?text=Hi%20Felicity%20Solar,%20I%20need%20a%20free%20quote&phone=2348171479561&utm_source=website&utm_medium=cta&utm_campaign=whatsapp"
+                  size={"lg"}
+                  label="Get a Free Quote"
+                />
+                <Link
+                  href="/products"
+                  className="flex items-center gap-2 text-white/80 hover:text-white"
+                >
+                  Browse products <MoveRight size={18} />
+                </Link>
+              </div>
+            </div>
+         
+
+        </section>
         {/* SECTION ONE */}
         <section className="flex flex-col lg:flex-row gap-y-20 py-18 md:py-32 mx-auto w-[90%] 2xl:w-[75%] md:gap-x-8 lg:gap-x-26">
           <div
@@ -250,7 +291,7 @@ export default function Home() {
                       {pillar.description}
                     </p>
                   </div>
-                ))} 
+                ))}
               </div>
             </div>
             <div className="grid gap-4" data-aos="zoom-in">
