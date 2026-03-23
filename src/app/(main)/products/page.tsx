@@ -4,7 +4,6 @@ import { ChevronRight } from 'lucide-react'
 import { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
-import React from 'react'
 
 export type IProduct = {
   id: string,
@@ -63,7 +62,7 @@ async function page() {
 
 
         <div className="flex flex-col justify-center items-center xl:rounded-xl relative h-56 xl:w-[75%] xl:mx-auto">
-          <Image src={"/assets/images/solar_street_light.jpg"} alt='felicity solar products' width={1200} height={250} className='xl:rounded-xl h-full  object-fit' />
+          <Image src={"/assets/images/solar_street_light.jpg"} alt='felicity solar products' width={1200} height={250} priority className='xl:rounded-xl h-full object-cover' />
           <div className="absolute z-20">
             <h1 className='text-white text-4xl lg:text-5xl font-semibold'>Our Products</h1>
           </div>

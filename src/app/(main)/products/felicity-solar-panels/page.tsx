@@ -9,13 +9,15 @@ import { IProductsResponse } from '../page'
 
 //
 
+export const revalidate = 3600
+
 export const metadata: Metadata = {
   title: 'Solar Panels - Felicity Solar',
   description: 'We have the best Solar products in town. Hybrid inverter, MPPT controller, Solar lithium battery, Gel battery, Solar all in one street light',
 }
 
 async function page() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API}/products/category/1`);
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API}/products/category/1`, { next: { revalidate: 3600 } });
   const response: IProductsResponse = await res.json();
   if (!response || !response.data) {
     return <p>No products available at the moment.</p>;
@@ -34,7 +36,7 @@ async function page() {
         </div>
 
         <div className="flex flex-col justify-center items-center xl:rounded-xl relative h-56 xl:w-[75%] xl:mx-auto">
-          <Image src={"/assets/images/solar_panels_bg.webp"} alt='felicity solar products' width={1200} height={250} className='xl:rounded-xl h-full  object-fit' />
+          <Image src={"/assets/images/solar_panels_bg.webp"} alt='felicity solar products' width={1200} height={250} priority className='xl:rounded-xl h-full object-cover' />
           <div className="absolute z-20">
             <h1 className='text-white text-4xl lg:text-5xl font-semibold'>Solar Panel</h1>
           </div>

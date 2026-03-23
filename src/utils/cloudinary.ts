@@ -22,5 +22,6 @@ export function cldUrl(publicId: string, opts: {
   ].filter(Boolean).join(',');
 
   const pid = folder ? `${folder}/${publicId}` : publicId;
+
   return `${base}${tx}/${pid}`;
 }

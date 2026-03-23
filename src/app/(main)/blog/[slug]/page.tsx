@@ -39,7 +39,8 @@ type BlogResponse = SuccessResponse | ErrorResponse;
 export const generateMetadata = async ({ params }: Props): Promise<Metadata> => {
     const slug = (await params).slug;
 
-    const id = getProductId(slug)
+    const id = getProductId(slug);
+
     try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_API}/blogs/${id}`, {
             next: { revalidate: 3600 }, // Optional: revalidate every 60s
@@ -65,7 +66,7 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
             },
         };
     } catch (error) {
-        console.log(error);
+        console.error(error);
 
         return {
             title: "Article Not Found | Felicity Solar",
@@ -111,9 +112,9 @@ function isSuccess(response: BlogResponse): response is SuccessResponse {
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
     const slug = (await params).slug;
 
-    const id = getProductId(slug) ??"";
-    
-    const details = await fetchBlogDetails(id)
+    const id = getProductId(slug) ?? "";
+
+    const details = await fetchBlogDetails(id);
 
     if (details.status !== 200) {
         return <div className="flex flex-col">
@@ -128,33 +129,33 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
     }
 
     if (isSuccess(details)) {
-
-        return (
-            <div className="flex flex-col">
-                <Navbar linkClassName="text-black" className='hidden lg:flex bg-white text-black border-b border-grey-100' variant='primary' />
-                <main className='font-[family-name:var(--font-inter)] bg-white mx-auto w-[90%] flex-col gap-y-8 xl:w-[70%] 2xl:w-[60%] mt-18 lg:mt-0'>
-                    <div className="flex lg:pb-4 pt-8 gap-y-1 lg:gap-y-0 lg:items-center  md:flex-row">
-                        <Link href="/blog" className='flex font-medium  text-sm 2xl:text-base items-center text-grey-400'>Blog <ChevronRight size={16} /></Link>
-                        <p className='text-grey-700 text-sm 2xl:text-base font-medium'>Post: {details.data.title}</p>
-                    </div>
-
-                    <section className='w-full lg:w-4/5 pb-32 pt-14'>
-                        <div className="flex w-full h-[300px] rounded-md">
-                            <Image src={details.data.thumbnail} width={678} className='rounded-md' height={300} alt={""} />
-
-                        </div>
-                        <div className="flex flex-col gap-y-2 mt-5 mb-18">
-                            <h3 className='uppercase text-primary font-bold text-xs xl:text-sm '>{details?.data?.category}</h3>
-                            <h2 className='text-2xl font-bold text-grey-800'>{details?.data?.title}</h2>
-                            <p className='text-grey-700 text-base'>{formatDate(details?.data?.created_at)}</p>
-                        </div>
-
-                        <div className='article-container flex flex-col gap-y-6' dangerouslySetInnerHTML={{ __html: details.data.content }} />
-                    </section>
-
-                </main>
-            </div>
-        )
+   
+          return (
+              <div className="flex flex-col">
+                  <Navbar linkClassName="text-black" className='hidden lg:flex bg-white text-black border-b border-grey-100' variant='primary' />
+                  <main className='font-[family-name:var(--font-inter)] bg-white mx-auto w-[90%] flex-col gap-y-8 xl:w-[70%] 2xl:w-[60%] mt-18 lg:mt-0'>
+                      <div className="flex lg:pb-4 pt-8 gap-y-1 lg:gap-y-0 lg:items-center  md:flex-row">
+                          <Link href="/blog" className='flex font-medium  text-sm 2xl:text-base items-center text-grey-400'>Blog <ChevronRight size={16} /></Link>
+                          <p className='text-grey-700 text-sm 2xl:text-base font-medium'>Post: {details.data.title}</p>
+                      </div>
+  
+                      <section className='w-full lg:w-4/5 pb-32 pt-14'>
+                          <div className="flex w-full h-[300px] rounded-md">
+                              <Image src={details.data.thumbnail} width={678} className='rounded-md' height={300} alt={""} />
+  
+                          </div>
+                          <div className="flex flex-col gap-y-2 mt-5 mb-18">
+                              <h3 className='uppercase text-primary font-bold text-xs xl:text-sm '>{details?.data?.category}</h3>
+                              <h2 className='text-2xl font-bold text-grey-800'>{details?.data?.title}</h2>
+                              <p className='text-grey-700 text-base'>{formatDate(details?.data?.created_at)}</p>
+                          </div>
+  
+                          <div className='article-container flex flex-col gap-y-6' dangerouslySetInnerHTML={{ __html: details.data.content }} />
+                      </section>
+  
+                  </main>
+              </div>
+          ) 
     }
 
 

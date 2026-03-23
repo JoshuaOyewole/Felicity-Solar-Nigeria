@@ -49,8 +49,6 @@ function Articles() {
   blogs.sort(() => 0.5 - Math.random());
   blogs.splice(3);
   
-
-  console.log(blogs);
   return (
     <section className="py-18 md:py-10 lg:py-32 flex-col flex gap-y-22">
       <div className="flex gap-y-26 mx-auto w-[90%] 2xl:w-[75%] gap-x-26 flex-col ">

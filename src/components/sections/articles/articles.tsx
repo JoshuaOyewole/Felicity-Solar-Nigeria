@@ -53,13 +53,14 @@ function Articles() {
     const articles: IBlog[] = data.data;
     const pagination: IPagination = data.pagination;
 
+  
     return (
         <React.Fragment>
             <div className="grid gap-y-12 grid-cols-1 md:grid-cols-2 md:gap-12 lg:grid-cols-3">
                 {
                     articles.length > 0 ? articles.map(b => {
                         return (
-                            <Article key={b.id} title={b.title} category={b.category} cover={b.thumbnail} url={`/blog/${generateSlug(String(b.id))}-${b.id}`} />
+                            <Article key={b.id} title={b.title} category={b.category} cover={b.thumbnail} url={`/blog/${generateSlug(String(b.title))}-${b.id}`} />
                         )
                     }
                     ) : <p className='text-grey-700 '>No article currently available</p>

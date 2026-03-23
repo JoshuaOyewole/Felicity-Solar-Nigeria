@@ -1,9 +1,8 @@
 import type { Attrs, Node } from "@tiptap/pm/model"
 import type { Editor } from "@tiptap/react"
-import axios from "axios"
 
 export const allowedImageTypes = ["image/jpeg", "image/png", "image/webp"];
-export const MAX_FILE_SIZE = 5 * 1024 * 1024 // 5MB
+export const MAX_FILE_SIZE = 2 * 1024 * 1024 // 2MB
 
 
 
@@ -183,56 +182,52 @@ export const handleImageUpload = async ({
   abortSignal,
 }: {
   file: File;
-  onProgress?: (event: { progress: number }) => void,
+  onProgress?: (event: { progress: number }) => void;
   abortSignal?: AbortSignal;
 }): Promise<string> => {
-  // ✅ Validation
-  if (!file) {
-    throw new Error("No file provided");
-  }
-
+  if (!file) throw new Error("No file provided");
 
   if (!allowedImageTypes.includes(file.type)) {
     throw new Error("Only JPEG, PNG, or WEBP images are allowed");
   }
 
   if (file.size > MAX_FILE_SIZE) {
-    throw new Error(
-      `File size exceeds maximum allowed (${MAX_FILE_SIZE / (1024 * 1024)}MB)`
-    );
+    throw new Error(`File size exceeds maximum allowed (${MAX_FILE_SIZE / (1024 * 1024)}MB)`);
   }
 
-  // ✅ Prepare form data
   const formData = new FormData();
   formData.append("file", file);
-  formData.append("upload_preset", "felicity-solar");
 
-  // ✅ Setup AbortController
   const controller = new AbortController();
   if (abortSignal) {
     abortSignal.addEventListener("abort", () => controller.abort(), { once: true });
   }
 
-  try {
-    const res = await axios.post(
-      `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUD_NAME}/image/upload`,
-      formData,
-      {
-        signal: controller.signal,
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-        onUploadProgress: (progressEvent) => {
-          const progress = Math.round(
-            (progressEvent.loaded * 100) / (progressEvent.total || 1)
-          );
-          onProgress?.({ progress });
-        },
-      }
-    );
+  // Simulate progress steps while the server handles the upload (fetch doesn't expose upload progress)
+  const progressInterval = setInterval(() => {
+    onProgress?.({ progress: 50 });
+  }, 300);
 
-    return res.data.secure_url;
+  try {
+    const res = await fetch("/api/upload", {
+      method: "POST",
+      body: formData,
+      credentials: "include",
+      signal: controller.signal,
+    });
+
+    clearInterval(progressInterval);
+
+    if (!res.ok) {
+      const body = await res.json().catch(() => ({}));
+      throw new Error(body.error ?? "Upload failed");
+    }
+
+    onProgress?.({ progress: 100 });
+    const data = await res.json();
+    return data.url as string;
   } catch (error: any) {
+    clearInterval(progressInterval);
     if (controller.signal.aborted || abortSignal?.aborted) {
       throw new Error("Upload cancelled");
     }
@@ -241,7 +236,7 @@ export const handleImageUpload = async ({
 };
 
 export const tiptapImageUpload: (file: File) => Promise<string> = async (file) => {
-  return await handleImageUpload({ file }); // only pass file
+  return await handleImageUpload({ file });
 };
 /**
  * Converts a File to base64 string

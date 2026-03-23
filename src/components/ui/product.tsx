@@ -20,8 +20,8 @@ function Product({ details, category_path, height = 500, width = 400 }: Props) {
     const parts = image_1.split('/');
     const filename = parts[parts.length - 1];
     const publicId = filename.split('.')[0];
-    const blur = cldUrl(publicId, { w: 20, h: Math.round(20 * (height / width)), q: '1', f: 'auto' }); // tiny preview
 
+    const blur = cldUrl(publicId, { w: 20, h: Math.round(20 * (height / width)), q: '1', f: 'auto' }); // tiny preview
 
 
     return (

@@ -118,8 +118,6 @@ function Login() {
         mutation.mutate(payload, {
             onSuccess(data) {
                 if (data.status === 200) {
-                    const token = data.token;
-                    localStorage.setItem("token", token);
                     toast.success(data.message);
                     router.push("/admin/dashboard");
                 } else {

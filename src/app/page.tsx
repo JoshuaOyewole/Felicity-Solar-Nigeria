@@ -132,14 +132,32 @@ export default function Home() {
 
         <section className="relative flex flex-col h-screen md:h-[70vh] xl:h-[95vh] justify-center overflow-x-hidden">
 
-          <Image
+          {/* <Image
             src="/assets/images/landing_page_hero1.png"
             alt="Hero background"
             fill
             priority
             sizes="100vw"
             className="object-cover z-0"
-          />
+          /> */}
+
+          <video
+            className="absolute inset-0 w-full h-full object-cover z-[-1]"
+            autoPlay
+            muted
+            playsInline
+            preload="metadata" // Do not load until needed
+            poster="/assets/images/landing_page_hero1.png" // Preview image
+            id="hero-video"
+          >
+
+            <source
+              //  src="https://res.cloudinary.com/dqkc8vle0/video/upload/v1757957869/felicity_bg-video_dacbci.mp4"
+              src="https://res.cloudinary.com/dqkc8vle0/video/upload/q_auto:eco,f_auto,w_960/v1757957869/felicity_bg-video_dacbci.mp4"
+              type="video/mp4"
+            />
+            Your browser does not support the video tag.
+          </video>
 
           <div className="absolute inset-0 bg-black/70 z-10" />
 
@@ -150,49 +168,49 @@ export default function Home() {
           />
 
 
-            <div className="w-[90%] xl:w-[80%] 2xl:w-[75%] mx-auto gap-y-20 lg:gap-y-8 flex flex-col z-40">
-              <div className="flex flex-col gap-y-6">
-                <div className="flex flex-col">
-                  <h1
-                    className="text-4xl md:text-5xl block md:leading-14 xl:leading-16 lg:text-6xl lg:flex gap-y-2 flex-col font-semibold text-white w-full xl:w-[90%] md:w-full"
-                    data-aos="zoom-in"
-                  >
-                    <span className="lg:block">
-                      Power homes, businesses, and{" "}
-                    </span>
-                    <span className="lg:block">
-                      mega projects with a{" "}
-                      <span className="text-primary"> brand </span>
-                    </span>
-                    <span className="md:block">you can trust.</span>
-                  </h1>
-                </div>
-                <p
-                  className="text-white font-medium text-lg"
-                  data-aos="fade-right"
+          <div className="w-[90%] xl:w-[80%] 2xl:w-[75%] mx-auto gap-y-20 lg:gap-y-8 flex flex-col z-40">
+            <div className="flex flex-col gap-y-6">
+              <div className="flex flex-col">
+                <h1
+                  className="text-4xl md:text-5xl block md:leading-14 xl:leading-16 lg:text-6xl lg:flex gap-y-2 flex-col font-semibold text-white w-full xl:w-[90%] md:w-full"
+                  data-aos="zoom-in"
                 >
-                  Felicity Solar delivers end-to-end solutions — production,
-                  sales, installation, and after-sales support nationwide.
-                </p>
+                  <span className="lg:block">
+                    Power homes, businesses, and{" "}
+                  </span>
+                  <span className="lg:block">
+                    mega projects with a{" "}
+                    <span className="text-primary"> brand </span>
+                  </span>
+                  <span className="md:block">you can trust.</span>
+                </h1>
               </div>
-
-              <div className="flex gap-4 flex-col sm:flex-row">
-                <LinkButton
-                  className="transition-all duration-250 hover:scale-105 hover:bg-[#363f48] hover:text-white"
-                  variant={"primary"}
-                  href="https://api.whatsapp.com/send/?text=Hi%20Felicity%20Solar,%20I%20need%20a%20free%20quote&phone=2348171479561&utm_source=website&utm_medium=cta&utm_campaign=whatsapp"
-                  size={"lg"}
-                  label="Get a Free Quote"
-                />
-                <Link
-                  href="/products"
-                  className="flex items-center gap-2 text-white/80 hover:text-white"
-                >
-                  Browse products <MoveRight size={18} />
-                </Link>
-              </div>
+              <p
+                className="text-white font-medium text-lg"
+                data-aos="fade-right"
+              >
+                Felicity Solar delivers end-to-end solutions — production,
+                sales, installation, and after-sales support nationwide.
+              </p>
             </div>
-         
+
+            <div className="flex gap-4 flex-col sm:flex-row">
+              <LinkButton
+                className="transition-all duration-250 hover:scale-105 hover:bg-[#363f48] hover:text-white"
+                variant={"primary"}
+                href="https://api.whatsapp.com/send/?text=Hi%20Felicity%20Solar,%20I%20need%20a%20free%20quote&phone=2348171479561&utm_source=website&utm_medium=cta&utm_campaign=whatsapp"
+                size={"lg"}
+                label="Get a Free Quote"
+              />
+              <Link
+                href="/products"
+                className="flex items-center gap-2 text-white/80 hover:text-white"
+              >
+                Browse products <MoveRight size={18} />
+              </Link>
+            </div>
+          </div>
+
 
         </section>
         {/* SECTION ONE */}

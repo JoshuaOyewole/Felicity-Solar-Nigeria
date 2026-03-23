@@ -6,7 +6,6 @@ import { z } from "zod";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AddProductSchema } from '@/lib/schema';
 import { ChevronLeft, CloudUpload } from 'lucide-react';
-import axios from 'axios';
 import { ICreateProduct } from '@/lib/types';
 import { toast } from 'react-toastify';
 import { SimpleEditor } from '@/components/tiptap/editor/simple-editor';
@@ -107,28 +106,37 @@ function AddProduct() {
     };
 
 
+    const MAX_IMAGE_SIZE = 2 * 1024 * 1024; // 2MB
+
     const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, fieldValue: "thumbnail1" | "thumbnail2" | "thumbnail3" | "thumbnail4") => {
         const file = e.target.files?.[0];
         if (!file) return;
 
-        const formData = new FormData();
-        formData.append("file", file);
-        formData.append("upload_preset", "felicity-solar"); // Replace with yours
+        if (file.size > MAX_IMAGE_SIZE) {
+            toast.error('Image too large. Maximum allowed file size is 2MB.');
+            e.target.value = '';
+            return;
+        }
 
-        //setUploading(true);
+        const formData = new FormData();
+        formData.append('file', file);
 
         try {
-            const res = await axios.post(
-                `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUD_NAME}/image/upload`,
-                formData
-            );
-
-            setValue(fieldValue, res.data.secure_url);
-
+            const res = await fetch('/api/upload', {
+                method: 'POST',
+                body: formData,
+                credentials: 'include',
+            });
+            if (!res.ok) {
+                const body = await res.json().catch(() => ({}));
+                toast.error(body.error ?? 'Image upload failed.');
+                return;
+            }
+            const data = await res.json();
+            setValue(fieldValue, data.url);
         } catch (err) {
-            console.error("Image upload failed:", err);
-        } finally {
-            //setUploading(false);
+            console.error('Image upload failed:', err);
+            toast.error('Image upload failed. Please try again.');
         }
     };
 

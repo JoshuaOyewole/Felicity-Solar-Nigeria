@@ -1,259 +1,261 @@
-import Barchart from '@/components/ui/Barchart'
+import OrdersOverviewChart from '@/components/ui/OrdersOverviewChart'
 import { capitalizeFirstLetterOfEachWord } from '@/lib/constants'
 import { format } from 'date-fns'
-import { ChartNoAxesCombined } from 'lucide-react'
+import { FileText, Package, ShoppingCart, TrendingUp, Trophy, Users } from 'lucide-react'
 import { Metadata } from 'next'
-import React from 'react'
-
 
 type IDashboard = {
     analytics: {
-        "total_orders": number,
-        "total_products": number,
-        "total_blogs": number,
-        "total_installers": number
-    },
-    order_overview: {
-        month: string,
-        Orders: number
-    }[],
-    sales_by_category: {
-        "category": string,
-        "orders": number
-    }[],
+        total_orders: number
+        total_products: number
+        total_blogs: number
+        total_installers: number
+    }
+    order_overview: { month: string; Orders: number }[]
+    sales_by_category: { category: string; orders: number }[]
     new_orders: {
-        "id": number,
-        "product_name": string,
-        "email": string,
-        "phone": string,
-        "fullnames": string,
-        "additionalMessage": string,
-        "qty": number,
-        "created_at": string
-    }[],
-    top_products: {
-        "product_name": string,
-        "total_orders": number
+        id: number
+        product_name: string
+        email: string
+        phone: string
+        fullnames: string
+        additionalMessage: string
+        qty: number
+        created_at: string
     }[]
-
-
+    top_products: { product_name: string; total_qty: number | string }[]
 }
+
 export const metadata: Metadata = {
-    title: 'Admin Dashboard- Felicity Solar',
-    description: 'We have the best Solar products in town. Hybrid inverter, MPPT controller, Solar lithium battery, Gel battery, Solar all in one street light',
+    title: 'Admin Dashboard — Felicity Solar',
+    description: 'Felicity Solar admin dashboard',
 }
 
+const STAT_CARDS = (a: IDashboard['analytics']) => [
+    {
+        label: 'Total Orders',
+        value: a.total_orders,
+        icon: ShoppingCart,
+        iconBg: 'bg-orange-50',
+        iconColor: 'text-primary',
+        accentBar: 'bg-primary',
+    },
+    {
+        label: 'Total Products',
+        value: a.total_products,
+        icon: Package,
+        iconBg: 'bg-blue-50',
+        iconColor: 'text-blue-500',
+        accentBar: 'bg-blue-400',
+    },
+    {
+        label: 'Blog Articles',
+        value: a.total_blogs,
+        icon: FileText,
+        iconBg: 'bg-violet-50',
+        iconColor: 'text-violet-500',
+        accentBar: 'bg-violet-400',
+    },
+    {
+        label: 'Total Installers',
+        value: a.total_installers,
+        icon: Users,
+        iconBg: 'bg-emerald-50',
+        iconColor: 'text-emerald-500',
+        accentBar: 'bg-emerald-400',
+    },
+]
 
-async function index() {
+async function DashboardPage() {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API}/dashboard`, {
         next: { revalidate: 60 },
-        credentials: "include"
-    });
-    const response: {
-        data: IDashboard,
-        message: string,
-        status: number
-    } = await res.json();
+        credentials: 'include',
+    })
 
-
-    if (!response || !response.data) {
-        return <p>An error occured.</p>;
+    if (!res.ok) {
+        return (
+            <div className="flex h-full items-center justify-center">
+                <p className="font-inter text-sm text-red-500">Failed to load dashboard data.</p>
+            </div>
+        )
     }
 
+    const response: { data: IDashboard; status: number } = await res.json()
 
+    if (!response?.data) {
+        return (
+            <div className="flex h-full items-center justify-center">
+                <p className="font-inter text-sm text-red-500">An error occurred loading data.</p>
+            </div>
+        )
+    }
 
-
-    const dashboard = response.data;
-
-    const analytics = dashboard.analytics;
-    const order_overview = dashboard.order_overview;
-    //const sales_by_category = dashboard.sales_by_category;
-    const new_orders = dashboard.new_orders;
-    const top_products = dashboard.top_products;
-
-
-
+    const { analytics, order_overview, new_orders, top_products } = response.data
+    const maxOrders = Math.max(...top_products.map((p) => Number(p.total_qty)), 1)
 
     return (
-        <>
+        <div className="flex flex-col h-full overflow-hidden">
 
-            <div className="flex min-h-16 h-[7vh] border bg-white border-[#F0F2F5] justify-start items-center">
-                <header className=" w-[94%] mx-auto  text-grey-800 font-bold text-2xl">
-                    Dashboard
-                </header>
+            {/* Top bar */}
+            <div className="hidden md:flex shrink-0 h-16 bg-white border-b border-grey-100 items-center px-8">
+                <h1 className="font-inter text-grey-900 font-bold text-xl tracking-tight">Dashboard</h1>
+                <span className="ml-auto inline-flex items-center gap-1.5 text-xs font-inter font-medium text-grey-500 bg-grey-75 border border-grey-200 rounded-full px-3 py-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    Live
+                </span>
             </div>
 
-            <div className="flex w-full mx-auto px-4 xl:px-10 py-10 flex-col h-[91vh] overflow-y-scroll">
-                <h1 className='font-inter font-semibold text-2xl text-grey-800 '>Welcome Back, Admin</h1>
-                <div className="flex py-8 flex-col gap-y-10">
-                    <div className="grid grid-cols-2 lg:grid-cols-3 2xl:w-[95%] xl:grid-cols-4 gap-y-6 stats gap-x-8 ">
+            {/* Scrollable body */}
+            <div className="flex-1 overflow-y-auto px-4 sm:px-6 xl:px-8 py-6 xl:py-8 bg-grey-75 space-y-7">
 
-                        <div className="bg-white rounded-md border h-[129px] w-[250px] border-grey-100 py-6 px-4 flex justify-center gap-y-2 flex-col">
-                            <div className="flex items-center gap-x-2">
-                                <svg width="49" height="48" viewBox="0 0 49 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="24.3334" cy="24" r="24" fill="#FDF0E7" />
-                                    <g clipPath="url(#clip0_309_122)">
-                                        <path d="M31.2656 12.4117V16.6875H35.5411L31.2656 12.4117Z" fill="#ED7020" />
-                                        <path d="M30.5625 18.0938C30.1742 18.0938 29.8594 17.7789 29.8594 17.3906V12H19.7812C18.6181 12 17.6719 12.9463 17.6719 14.1094V21.9698C17.9035 21.9488 18.138 21.9375 18.375 21.9375C20.7716 21.9375 22.917 23.0332 24.3368 24.75H31.9688C32.3571 24.75 32.6719 25.0648 32.6719 25.4531C32.6719 25.8414 32.3571 26.1562 31.9688 26.1562H25.2632C25.7027 27.0139 25.9861 27.964 26.0771 28.9688H31.9688C32.3571 28.9688 32.6719 29.2836 32.6719 29.6719C32.6719 30.0602 32.3571 30.375 31.9688 30.375H26.0771C25.8668 32.6971 24.6261 34.7262 22.8168 36H33.8438C35.0069 36 35.9531 35.0537 35.9531 33.8906V18.0938H30.5625ZM31.9688 21.9375H21.6562C21.2679 21.9375 20.9531 21.6227 20.9531 21.2344C20.9531 20.8461 21.2679 20.5312 21.6562 20.5312H31.9688C32.3571 20.5312 32.6719 20.8461 32.6719 21.2344C32.6719 21.6227 32.3571 21.9375 31.9688 21.9375Z" fill="#ED7020" />
-                                        <path d="M18.375 23.3438C14.8857 23.3438 12.0469 26.1825 12.0469 29.6719C12.0469 33.1612 14.8857 36 18.375 36C21.8643 36 24.7031 33.1612 24.7031 29.6719C24.7031 26.1825 21.8643 23.3438 18.375 23.3438ZM20.25 30.375H18.375C17.9867 30.375 17.6719 30.0602 17.6719 29.6719V26.8594C17.6719 26.4711 17.9867 26.1562 18.375 26.1562C18.7633 26.1562 19.0781 26.4711 19.0781 26.8594V28.9688H20.25C20.6383 28.9688 20.9531 29.2836 20.9531 29.6719C20.9531 30.0602 20.6383 30.375 20.25 30.375Z" fill="#ED7020" />
-                                    </g>
-                                    <defs>
-                                        <clipPath id="clip0_309_122">
-                                            <rect width="24" height="24" fill="white" transform="translate(12 12)" />
-                                        </clipPath>
-                                    </defs>
-                                </svg>
-
-
-                                <p className='font-inter font-medium text-base text-grey-500'>Total Products</p>
-                            </div>
-                            <h3 className='font-inter text-grey-900 font-bold text-[1.75rem] ml-3'>{analytics.total_products}</h3>
-                        </div>
-                        <div className="bg-white rounded-md border h-[129px] w-[250px] border-grey-100 py-6 px-4 flex justify-center gap-y-2 flex-col">
-                            <div className="flex items-center gap-x-2">
-                                <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="24" cy="24" r="24" fill="#FDF0E7" />
-                                    <path d="M22.5975 23.25L23.595 24.75H21.75V23.25H22.5975Z" fill="#ED7020" />
-                                    <path d="M24.405 23.25H26.25V24.75H25.4025L24.405 23.25Z" fill="#ED7020" />
-                                    <path d="M24 13.5C21.9233 13.5 19.8932 14.1158 18.1665 15.2696C16.4398 16.4233 15.094 18.0632 14.2993 19.9818C13.5045 21.9004 13.2966 24.0116 13.7018 26.0484C14.1069 28.0852 15.1069 29.9562 16.5754 31.4246C18.0438 32.8931 19.9148 33.8931 21.9516 34.2982C23.9884 34.7034 26.0996 34.4955 28.0182 33.7007C29.9368 32.906 31.5767 31.5602 32.7304 29.8335C33.8842 28.1068 34.5 26.0767 34.5 24C34.4995 21.2154 33.3931 18.545 31.4241 16.5759C29.4551 14.6069 26.7846 13.5005 24 13.5ZM28.5 24.75C28.6989 24.75 28.8897 24.829 29.0303 24.9697C29.171 25.1103 29.25 25.3011 29.25 25.5C29.25 25.6989 29.171 25.8897 29.0303 26.0303C28.8897 26.171 28.6989 26.25 28.5 26.25H27.75V28.5C27.7495 28.6611 27.6976 28.8178 27.6018 28.9473C27.506 29.0768 27.3714 29.1723 27.2175 29.22C27.1469 29.241 27.0736 29.2511 27 29.25C26.8763 29.2504 26.7544 29.2198 26.6456 29.1608C26.5368 29.1018 26.4446 29.0164 26.3775 28.9125L24.6 26.25H21.75V28.5C21.75 28.6989 21.671 28.8897 21.5303 29.0303C21.3897 29.171 21.1989 29.25 21 29.25C20.8011 29.25 20.6103 29.171 20.4697 29.0303C20.329 28.8897 20.25 28.6989 20.25 28.5V26.25H19.5C19.3011 26.25 19.1103 26.171 18.9697 26.0303C18.829 25.8897 18.75 25.6989 18.75 25.5C18.75 25.3011 18.829 25.1103 18.9697 24.9697C19.1103 24.829 19.3011 24.75 19.5 24.75H20.25V23.25H19.5C19.3011 23.25 19.1103 23.171 18.9697 23.0303C18.829 22.8897 18.75 22.6989 18.75 22.5C18.75 22.3011 18.829 22.1103 18.9697 21.9697C19.1103 21.829 19.3011 21.75 19.5 21.75H20.25V19.5C20.249 19.3387 20.3003 19.1813 20.3961 19.0515C20.492 18.9218 20.6274 18.8265 20.7819 18.7801C20.9364 18.7336 21.1018 18.7385 21.2533 18.7939C21.4049 18.8493 21.5344 18.9523 21.6225 19.0875L23.4 21.75H26.25V19.5C26.25 19.3011 26.329 19.1103 26.4697 18.9697C26.6103 18.829 26.8011 18.75 27 18.75C27.1989 18.75 27.3897 18.829 27.5303 18.9697C27.671 19.1103 27.75 19.3011 27.75 19.5V21.75H28.5C28.6989 21.75 28.8897 21.829 29.0303 21.9697C29.171 22.1103 29.25 22.3011 29.25 22.5C29.25 22.6989 29.171 22.8897 29.0303 23.0303C28.8897 23.171 28.6989 23.25 28.5 23.25H27.75V24.75H28.5Z" fill="#ED7020" />
-                                </svg>
-
-                                <p className='font-inter font-medium text-base text-grey-500'>Total Orders</p>
-                            </div>
-                            <h3 className='font-inter text-grey-900 font-bold text-[1.75rem] ml-3'>{analytics.total_orders}</h3>
-                        </div>
-
-                        <div className="bg-white rounded-md border h-[129px] w-[250px] border-grey-100 py-6 px-4 flex justify-center gap-y-2 flex-col">
-                            <div className="flex items-center gap-x-2">
-                                <svg width="49" height="48" viewBox="0 0 49 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="24.3334" cy="24" r="24" fill="#FDF0E7" />
-                                    <g clipPath="url(#clip0_309_122)">
-                                        <path d="M31.2656 12.4117V16.6875H35.5411L31.2656 12.4117Z" fill="#ED7020" />
-                                        <path d="M30.5625 18.0938C30.1742 18.0938 29.8594 17.7789 29.8594 17.3906V12H19.7812C18.6181 12 17.6719 12.9463 17.6719 14.1094V21.9698C17.9035 21.9488 18.138 21.9375 18.375 21.9375C20.7716 21.9375 22.917 23.0332 24.3368 24.75H31.9688C32.3571 24.75 32.6719 25.0648 32.6719 25.4531C32.6719 25.8414 32.3571 26.1562 31.9688 26.1562H25.2632C25.7027 27.0139 25.9861 27.964 26.0771 28.9688H31.9688C32.3571 28.9688 32.6719 29.2836 32.6719 29.6719C32.6719 30.0602 32.3571 30.375 31.9688 30.375H26.0771C25.8668 32.6971 24.6261 34.7262 22.8168 36H33.8438C35.0069 36 35.9531 35.0537 35.9531 33.8906V18.0938H30.5625ZM31.9688 21.9375H21.6562C21.2679 21.9375 20.9531 21.6227 20.9531 21.2344C20.9531 20.8461 21.2679 20.5312 21.6562 20.5312H31.9688C32.3571 20.5312 32.6719 20.8461 32.6719 21.2344C32.6719 21.6227 32.3571 21.9375 31.9688 21.9375Z" fill="#ED7020" />
-                                        <path d="M18.375 23.3438C14.8857 23.3438 12.0469 26.1825 12.0469 29.6719C12.0469 33.1612 14.8857 36 18.375 36C21.8643 36 24.7031 33.1612 24.7031 29.6719C24.7031 26.1825 21.8643 23.3438 18.375 23.3438ZM20.25 30.375H18.375C17.9867 30.375 17.6719 30.0602 17.6719 29.6719V26.8594C17.6719 26.4711 17.9867 26.1562 18.375 26.1562C18.7633 26.1562 19.0781 26.4711 19.0781 26.8594V28.9688H20.25C20.6383 28.9688 20.9531 29.2836 20.9531 29.6719C20.9531 30.0602 20.6383 30.375 20.25 30.375Z" fill="#ED7020" />
-                                    </g>
-                                    <defs>
-                                        <clipPath id="clip0_309_122">
-                                            <rect width="24" height="24" fill="white" transform="translate(12 12)" />
-                                        </clipPath>
-                                    </defs>
-                                </svg>
-
-
-                                <p className='font-inter font-medium text-base text-grey-500'>Total Blog Articles</p>
-                            </div>
-                            <h3 className='font-inter text-grey-900 font-bold text-[1.75rem] ml-3'>{analytics.total_blogs}</h3>
-                        </div>
-                        <div className="bg-white rounded-md border h-[129px] w-[250px] border-grey-100 py-6 px-4 flex justify-center gap-y-2 flex-col">
-                            <div className="flex items-center gap-x-2">
-                                <svg width="49" height="48" viewBox="0 0 49 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="24.3334" cy="24" r="24" fill="#FDF0E7" />
-                                    <g clipPath="url(#clip0_309_122)">
-                                        <path d="M31.2656 12.4117V16.6875H35.5411L31.2656 12.4117Z" fill="#ED7020" />
-                                        <path d="M30.5625 18.0938C30.1742 18.0938 29.8594 17.7789 29.8594 17.3906V12H19.7812C18.6181 12 17.6719 12.9463 17.6719 14.1094V21.9698C17.9035 21.9488 18.138 21.9375 18.375 21.9375C20.7716 21.9375 22.917 23.0332 24.3368 24.75H31.9688C32.3571 24.75 32.6719 25.0648 32.6719 25.4531C32.6719 25.8414 32.3571 26.1562 31.9688 26.1562H25.2632C25.7027 27.0139 25.9861 27.964 26.0771 28.9688H31.9688C32.3571 28.9688 32.6719 29.2836 32.6719 29.6719C32.6719 30.0602 32.3571 30.375 31.9688 30.375H26.0771C25.8668 32.6971 24.6261 34.7262 22.8168 36H33.8438C35.0069 36 35.9531 35.0537 35.9531 33.8906V18.0938H30.5625ZM31.9688 21.9375H21.6562C21.2679 21.9375 20.9531 21.6227 20.9531 21.2344C20.9531 20.8461 21.2679 20.5312 21.6562 20.5312H31.9688C32.3571 20.5312 32.6719 20.8461 32.6719 21.2344C32.6719 21.6227 32.3571 21.9375 31.9688 21.9375Z" fill="#ED7020" />
-                                        <path d="M18.375 23.3438C14.8857 23.3438 12.0469 26.1825 12.0469 29.6719C12.0469 33.1612 14.8857 36 18.375 36C21.8643 36 24.7031 33.1612 24.7031 29.6719C24.7031 26.1825 21.8643 23.3438 18.375 23.3438ZM20.25 30.375H18.375C17.9867 30.375 17.6719 30.0602 17.6719 29.6719V26.8594C17.6719 26.4711 17.9867 26.1562 18.375 26.1562C18.7633 26.1562 19.0781 26.4711 19.0781 26.8594V28.9688H20.25C20.6383 28.9688 20.9531 29.2836 20.9531 29.6719C20.9531 30.0602 20.6383 30.375 20.25 30.375Z" fill="#ED7020" />
-                                    </g>
-                                    <defs>
-                                        <clipPath id="clip0_309_122">
-                                            <rect width="24" height="24" fill="white" transform="translate(12 12)" />
-                                        </clipPath>
-                                    </defs>
-                                </svg>
-
-
-                                <p className='font-inter font-medium text-base text-grey-500'>Total Installers</p>
-                            </div>
-                            <h3 className='font-inter text-grey-900 font-bold text-[1.75rem] ml-3'>{analytics.total_installers}</h3>
-                        </div>
-                    </div>
-                    <div className="flex gap-x-6 flex-col xl:flex-row gap-y-8">
-                        <div className="flex flex-col gap-y-8 h-[400px] w-full xl:w-[70%] bg-white rounded-md">
-                            <h2 className='font-inter text-[#101828] px-4 font-semibold text-lg pt-8'>Total Orders overview</h2>
-                            <Barchart data={order_overview} />
-                        </div>
-                        <div className="flex flex-col gap-y-8 h-[400px] px-4 w-full xl:w-[30%] bg-white rounded-md">
-                            <h2 className='font-inter text-[#101828]  font-semibold text-lg pt-8'>Top selling products</h2>
-                            {top_products.length > 0
-                                ?
-                                top_products.map((t, i) => {
-                                    return <div className="flex gap-x-4 justify-between" key={i}>
-                                        <div className="flex flex-col gap-y-1">
-                                            <h3 className='font-inter text-grey-700 font-semibold text-[0.8125rem] '>{t.product_name}</h3>
-                                            <p className='font-inter text-grey-700 font-medium text-xs '><span className='text-primary'>No. items ordered:</span> {t.total_orders}</p>
-                                        </div>
-                                        {/*   <p className='font-inter texxt-grey-900 font-semibold text-sm'>₦80,323.12</p> */}
-                                    </div>
-                                })
-                                : <div className="flex flex-col gap-y-5">
-                                    <ChartNoAxesCombined size={50} />
-                                    <h2 className='text-red-800 italic text-sm font-medium'>
-
-                                        No Top selling products yet
-                                    </h2>
-                                </div>
-
-
-
-                            }
-                        </div>
-                    </div>
-
-
-                    {new_orders.length > 0 &&
-                        <div className="flex gap-x-6 flex-col">
-                            <div className="flex flex-col gap-y-8 h-[500px] w-full  bg-white rounded-md">
-                                <h2 className='font-inter text-[#101828] px-4 font-semibold text-lg pt-8'>New Orders</h2>
-                                <div className="relative overflow-y-scroll appearance-none  shadow-md sm:rounded-lg pb-8">
-                                    <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                                        <thead className=" text-gray-700 uppercase bg-grey-100 dark:bg-gray-700 dark:text-gray-400">
-                                            <tr>
-                                                <th scope="col" className="p-4 text-sm">
-                                                    {/*  <div className="flex items-center">
-                                                            <input id="checkbox-all-search" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                                                                <label htmlFor="checkbox-all-search" className="sr-only">checkbox</label>
-                                                        </div> */}
-                                                    Product Name
-                                                </th>
-                                                <th scope="col" className="px-6 py-3 text-sm">
-                                                    Qty
-                                                </th>
-                                                <th scope="col" className="px-6 py-3 text-sm">
-                                                    Date
-                                                </th>
-                                                <th scope="col" className="px-6 py-3 text-sm">
-                                                    Customer Name
-                                                </th>
-                                                <th scope="col" className="px-6 py-3 text-sm">
-                                                    Customer Phone No.
-                                                </th>
-                                                <th scope="col" className="px-6 py-3 text-sm">
-                                                    Customer Email
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {new_orders.map(p => {
-                                                return <tr key={p.id}>
-                                                    <td className="font-inter p-5 text-sm  leading-6 font-medium text-gray-900 break-words"> {p.product_name}</td>
-                                                    <td className="font-inter p-5 whitespace-nowrap text-sm  leading-6 font-medium text-gray-900 ">{p.qty}</td>
-                                                    <td className="font-inter p-5 whitespace-nowrap text-sm  leading-6 font-medium text-gray-900 ">{format(new Date(p.created_at), "do MMM, yyyy h:mmaaa")}</td>
-                                                    <td className="font-inter p-5 whitespace-nowrap text-sm  leading-6 font-medium text-gray-900"> {capitalizeFirstLetterOfEachWord(p.fullnames)} </td>
-                                                    <td className="font-inter p-5 whitespace-nowrap text-sm  leading-6 font-medium text-gray-900">{p.phone}</td>
-                                                    <td className="font-inter p-5 whitespace-nowrap text-sm  leading-6 font-medium text-gray-900">{p.email}</td>
-
-                                                </tr>
-                                            })}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-
-                        </div>}
+                {/* Welcome */}
+                <div>
+                    <h2 className="font-inter font-semibold text-2xl text-grey-900 tracking-tight">
+                        Welcome back, Admin 👋
+                    </h2>
+                    <p className="font-inter text-sm text-grey-500 mt-1">
+                        {format(new Date(), "EEEE, do MMMM yyyy")}
+                    </p>
                 </div>
-            </div>
 
-        </>
+                {/* KPI cards */}
+                <div className="grid grid-cols-2 xl:grid-cols-4 gap-5">
+                    {STAT_CARDS(analytics).map(({ label, value, icon: Icon, iconBg, iconColor, accentBar }) => (
+                        <div key={label} className="bg-white rounded-2xl border border-grey-100 shadow-sm overflow-hidden">
+                            <div className={`h-1 w-full ${accentBar}`} />
+                            <div className="p-5 flex flex-col gap-4">
+                                <div className={`w-10 h-10 rounded-xl ${iconBg} flex items-center justify-center`}>
+                                    <Icon size={18} className={iconColor} />
+                                </div>
+                                <div>
+                                    <p className="font-inter text-xs font-medium text-grey-400 uppercase tracking-widest">{label}</p>
+                                    <h3 className="font-inter text-[2rem] font-bold text-grey-900 leading-tight mt-1">
+                                        {value.toLocaleString()}
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+
+                {/* Charts row */}
+                <div className="grid grid-cols-1 xl:grid-cols-3 gap-5">
+
+                    {/* Orders chart */}
+                    <div className="xl:col-span-2 bg-white rounded-2xl border border-grey-100 shadow-sm overflow-hidden h-[400px]">
+                        <OrdersOverviewChart initialData={order_overview} initialYear={new Date().getFullYear()} />
+                    </div>
+
+                    {/* Top products */}
+                    <div className="bg-white rounded-2xl border border-grey-100 shadow-sm h-[400px] overflow-hidden flex flex-col">
+                        <div className="flex items-center gap-2 px-6 pt-6 pb-4 border-b border-grey-100 shrink-0">
+                            <Trophy size={15} className="text-primary" />
+                            <h2 className="font-inter font-semibold text-sm text-grey-900">Top Selling Products</h2>
+                        </div>
+                        <div className="flex-1 overflow-y-auto px-6 py-4">
+                            {top_products.length > 0 ? (
+                                <div className="flex flex-col gap-5">
+                                    {top_products.map((t, i) => (
+                                        <div key={i} className="flex flex-col gap-2">
+                                            <div className="flex justify-between items-center gap-3">
+                                                <p className="font-inter text-xs font-medium text-grey-700 break-words">{t.product_name}</p>
+                                                <span className="font-inter text-xs font-bold text-primary shrink-0">
+                                                    {Number(t.total_qty).toLocaleString()} <span className="font-normal text-grey-400">units</span>
+                                                </span>
+                                            </div>
+                                            <div className="w-full h-1.5 bg-grey-100 rounded-full overflow-hidden">
+                                                <div
+                                                    className="h-full bg-primary rounded-full transition-all duration-500"
+                                                    style={{ width: `${Math.round((Number(t.total_qty) / maxOrders) * 100)}%` }}
+                                                />
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            ) : (
+                                <div className="h-full flex flex-col items-center justify-center gap-3 text-center">
+                                    <TrendingUp size={32} className="text-grey-200" />
+                                    <p className="font-inter text-sm text-grey-400">No sales data yet</p>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+
+                {/* Recent orders table */}
+                {new_orders.length > 0 && (
+                    <div className="bg-white rounded-2xl border border-grey-100 shadow-sm overflow-hidden">
+                        <div className="flex items-center gap-3 px-6 py-5 border-b border-grey-100">
+                            <ShoppingCart size={15} className="text-primary" />
+                            <h2 className="font-inter font-semibold text-sm text-grey-900">Recent Orders</h2>
+                            <span className="ml-auto font-inter text-xs text-grey-400 bg-grey-75 border border-grey-200 rounded-full px-2.5 py-0.5">
+                                {new_orders.length} entries
+                            </span>
+                        </div>
+                        <div className="overflow-x-auto">
+                            <table className="w-full text-sm font-inter">
+                                <thead>
+                                    <tr className="bg-grey-75 text-grey-400 text-[11px] uppercase tracking-wider">
+                                        <th className="px-6 py-3 text-left font-semibold w-40">Customer</th>
+                                        <th className="px-6 py-3 text-left font-semibold w-[35%]">Product</th>
+                                        <th className="px-6 py-3 text-left font-semibold w-12">Qty</th>
+                                        <th className="px-6 py-3 text-left font-semibold w-36">Phone</th>
+                                        <th className="px-6 py-3 text-left font-semibold w-48">Email</th>
+                                        <th className="px-6 py-3 text-left font-semibold w-40">Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="divide-y divide-grey-100">
+                                    {new_orders.map((order) => {
+                                        const initials = order.fullnames
+                                            .split(' ')
+                                            .map((n) => n[0] ?? '')
+                                            .join('')
+                                            .slice(0, 2)
+                                            .toUpperCase()
+                                        return (
+                                            <tr key={order.id} className="hover:bg-grey-75 transition-colors duration-150">
+                                                <td className="px-6 py-4">
+                                                    <div className="flex items-center gap-3">
+                                                        <div className="w-8 h-8 rounded-full bg-orange-100 text-primary text-[11px] font-bold flex items-center justify-center shrink-0">
+                                                            {initials}
+                                                        </div>
+                                                        <span className="text-grey-800 font-medium whitespace-nowrap">
+                                                            {capitalizeFirstLetterOfEachWord(order.fullnames)}
+                                                        </span>
+                                                    </div>
+                                                </td>
+                                                <td className="px-6 py-4 text-grey-600">
+                                                    <span>{order.product_name}</span>
+                                                </td>
+                                                <td className="px-6 py-4">
+                                                    <span className="inline-flex items-center justify-center w-7 h-7 rounded-lg bg-grey-100 text-grey-700 font-semibold text-xs">
+                                                        {order.qty}
+                                                    </span>
+                                                </td>
+                                                <td className="px-6 py-4 text-grey-600 whitespace-nowrap">{order.phone}</td>
+                                                <td className="px-6 py-4 text-grey-500 whitespace-nowrap">{order.email}</td>
+                                                <td className="px-6 py-4 text-grey-400 whitespace-nowrap text-xs">
+                                                    {format(new Date(order.created_at), "do MMM yyyy, h:mmaaa")}
+                                                </td>
+                                            </tr>
+                                        )
+                                    })}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                )}
+
+                {new_orders.length === 0 && (
+                    <div className="bg-white rounded-2xl border border-grey-100 shadow-sm p-12 flex flex-col items-center gap-3 text-center">
+                        <ShoppingCart size={36} className="text-grey-200" />
+                        <p className="font-inter text-sm text-grey-400">No orders yet</p>
+                    </div>
+                )}
+
+            </div>
+        </div>
     )
 }
 
-export default index
+export default DashboardPage

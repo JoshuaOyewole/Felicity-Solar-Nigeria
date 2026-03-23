@@ -33,10 +33,10 @@ function ProductImageGallery({ desc, cover, img2, img3, img4, height = 160, widt
                 alt={desc ?? ""}
                 width={450}
                 height={450}
-                loading="lazy"
+                priority
                 placeholder="blur"
                 blurDataURL={cldUrl(getPublicId(coverImg), { w: 20, h: Math.round(20 * (450 / 540)), q: '1', f: 'auto' })}
-                sizes="(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 340px"
+                sizes="(max-width: 768px) 90vw, (max-width: 1200px) 45vw, 450px"
                 className="w-full h-auto rounded-lg shadow-md mb-4" id="mainImage"
             />}
             <div className="flex gap-4 py-4 justify-center overflow-x-auto">

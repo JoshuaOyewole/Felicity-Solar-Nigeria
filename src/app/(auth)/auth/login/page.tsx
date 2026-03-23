@@ -1,7 +1,7 @@
 
 import { Metadata } from 'next'
 import { Inter } from 'next/font/google';
-import React from 'react'
+//import React from 'react'
 import "../../../globals.css"
 import Login from '@/components/Login';
 const inter = Inter({

@@ -39,11 +39,11 @@ async function index() {
 
 
     return (
-        <div className='h-screen '>
-            <header className="min-h-16 h-[7vh] bg-white py-8 border border-[#F0F2F5] flex justify-start px-6 items-center text-grey-800 font-bold text-2xl">
+        <div className='h-full flex flex-col'>
+            <header className="hidden md:flex min-h-16 h-[7vh] bg-white py-8 border border-[#F0F2F5] justify-start px-6 items-center text-grey-800 font-bold text-2xl">
                 Orders Listing
             </header>
-            <div className="flex py-8 px-4 flex-col gap-y-12 h-[90vh] overflow-y-scroll">
+            <div className="flex-1 overflow-y-auto py-8 px-4 sm:px-6 flex flex-col gap-y-12">
                 <div className="flex justify-between items-center w-full">
                     <h2 className='text-grey-800 font-inter text-base font-semibold'>All Orders</h2>
 

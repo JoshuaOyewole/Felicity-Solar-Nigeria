@@ -16,7 +16,7 @@ export default function LogoutButton() {
             toast.success(data.message);
             router.push('/auth/login');
         } catch (error) {
-            console.log(error);
+            console.error(error);
         }
 
     };

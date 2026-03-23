@@ -85,8 +85,6 @@ async function Page({ params }: { params: Promise<{ stateId: string }> }) {
   const res = await getStateProjects(stateId);
   const states = res.data ?? [];
 
-  console.log(states);
-
 
   return (
     <main className='font-[family-name:var(--font-inter)]'>

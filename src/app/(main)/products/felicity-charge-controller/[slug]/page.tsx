@@ -44,7 +44,7 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
             },
         };
     } catch (error) {
-        console.log(error);
+        console.error(error);
 
         return {
             title: "Product Not Found | Felicity Solar",

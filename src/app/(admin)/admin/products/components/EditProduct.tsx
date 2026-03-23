@@ -6,7 +6,6 @@ import { z } from "zod";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { EditProductSchema } from '@/lib/schema';
 import { ChevronLeft, CloudUpload } from 'lucide-react';
-import axios from 'axios';
 import { ICreateProduct } from '@/lib/types';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
@@ -82,15 +81,10 @@ function EditProduct({ id }: IProps) {
     const [description, setDescription] = useState<string | undefined>(undefined);
     const [keyFeatures, setKeyFeatures] = useState<string | undefined>(undefined);
 
-    console.log(uploading);
-
-
     const { isLoading, isError, data } = useQuery({
         queryKey: ['product', id],
         queryFn: () => fetchProduct(id)
     })
-
-    console.log(data);
 
     const router = useRouter();
     const {
@@ -121,26 +115,38 @@ function EditProduct({ id }: IProps) {
 
 
 
+    const MAX_IMAGE_SIZE = 2 * 1024 * 1024; // 2MB
+
     const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, fieldValue: "thumbnail1" | "thumbnail2" | "thumbnail3" | "thumbnail4") => {
         const file = e.target.files?.[0];
         if (!file) return;
 
+        if (file.size > MAX_IMAGE_SIZE) {
+            toast.error('Image too large. Maximum allowed file size is 2MB.');
+            e.target.value = '';
+            return;
+        }
+
         const formData = new FormData();
-        formData.append("file", file);
-        formData.append("upload_preset", "felicity-solar"); // Replace with yours
+        formData.append('file', file);
 
         setUploading(true);
-
         try {
-            const res = await axios.post(
-                `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUD_NAME}/image/upload`,
-                formData
-            );
-
-            setValue(fieldValue, res.data.secure_url);
-
+            const res = await fetch('/api/upload', {
+                method: 'POST',
+                body: formData,
+                credentials: 'include',
+            });
+            if (!res.ok) {
+                const body = await res.json().catch(() => ({}));
+                toast.error(body.error ?? 'Image upload failed.');
+                return;
+            }
+            const data = await res.json();
+            setValue(fieldValue, data.url);
         } catch (err) {
-            console.error("Image upload failed:", err);
+            console.error('Image upload failed:', err);
+            toast.error('Image upload failed. Please try again.');
         } finally {
             setUploading(false);
         }
@@ -179,13 +185,8 @@ function EditProduct({ id }: IProps) {
             video_link: data.videoLink && data.videoLink.trim() !== '' ? data.videoLink : null, // Convert empty/whitespace strings to null
         }
 
-        console.log('Payload:', payload);
-        console.log('VideoLink raw value:', data.videoLink);
-        console.log('VideoLink processed value:', payload.video_link);
-
         mutation.mutate(payload, {
             onSuccess(data) {
-                console.log('Success:', data);
                 toast.success(data.message);
                 reset();
                 router.back();

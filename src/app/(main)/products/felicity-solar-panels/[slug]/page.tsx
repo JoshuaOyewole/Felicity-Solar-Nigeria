@@ -21,6 +21,7 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
     const slug = (await params).slug;
 
     const id = getProductId(slug) ?? "";
+
     try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_API}/products/${id}`, {
             next: { revalidate: 3600 }, // Optional: revalidate every 60s
@@ -37,7 +38,7 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
         } = await res.json();
 
         const product = data.data;
-
+       
         return {
             title: `${product.product_name} | Felicity Solar`,
             description: product.description.slice(0, 160), // Shorten description for SEO
@@ -46,7 +47,7 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
             },
         };
     } catch (error) {
-        console.log(error);
+        console.error(error);
 
         return {
             title: "Product Not Found | Felicity Solar",
@@ -72,7 +73,8 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
     }
     const product = response.data;
 
-    return (
+
+   return (
         <main className='font-[family-name:var(--font-inter)]'>
             <Navbar linkClassName="text-grey-800 font-semibold" className='hidden lg:flex bg-white text-black border-b border-grey-100' variant='primary' />
             {/* GA4 tracking */}
@@ -154,7 +156,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
                                 <ProcessOrder productName={product?.product_name ?? ""} />
                                 <div className="w-full">
                                     <h3 className="text-lg font-semibold mb-2">Key Features:</h3>
-                                    <div className='keyFeatures-container flex flex-col gap-y-4' dangerouslySetInnerHTML={{ __html: product?.key_features }} />
+                                     <div className='keyFeatures-container flex flex-col gap-y-4' dangerouslySetInnerHTML={{ __html: product?.key_features }} /> 
                                 </div>
                                 {product?.manual &&
                                     <Link href={product?.manual} className='flex items-center justify-center border rounded-full border-primary px-4 font-inter font-medium text-primary hover:bg-primary hover:text-white transition-all hover:cursor-pointer h-11 w-[190px]'>
@@ -179,13 +181,13 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
 
                         <div className="flex produt_description mt-10 flex-col">
                             <h3 className="text-lg font-semibold mb-2">Description:</h3>
-                            <div className='flex flex-col gap-y-4' dangerouslySetInnerHTML={{ __html: product?.description }} />
+                               <div className='flex flex-col gap-y-4' dangerouslySetInnerHTML={{ __html: product?.description }} /> 
                         </div>
 
                         {/* Product Video Section */}
                         {product?.video_link && (
                             <div className="mt-10">
-                                <VideoWidget 
+                                <VideoWidget
                                     videoUrl={product.video_link}
                                     title={`${product.product_name} - Product Demo`}
                                     className="max-w-4xl"

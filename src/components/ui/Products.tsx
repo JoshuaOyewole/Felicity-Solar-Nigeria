@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from 'react'
+import  { useState } from 'react'
 import { fetchProduts } from '@/app/(admin)/admin/products/components/Products';
 import { useQuery } from '@tanstack/react-query';
 
@@ -14,31 +14,28 @@ function Products() {
 
     const query = useQuery({
         queryKey: ['products', currentPage],
-        queryFn: () => fetchProduts(currentPage, limit)
+        queryFn: () => fetchProduts(currentPage, limit),
+        staleTime: 5 * 60 * 1000,
+        placeholderData: (prev) => prev,
     })
     const handleChange = (page: number) => {
         setCurrentPage(page)
+        window.scrollTo({ top: 0, behavior: 'smooth' })
     }
     if (query.isLoading) {
         return (
-           <div className='flex justify-center w-full h-full '>
-            <div className="w-full">
-                <div className="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[480px] w-full mb-4"></div>
-                <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[480px] w-full mb-2.5"></div>
-                <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 mb-2.5 w-full"></div>
-                <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[440px] w-full mb-2.5"></div>
-                <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[460px] w-full mb-2.5"></div>
-                <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[360px] w-full"></div>
-
-                <div className="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[480px] w-full mb-4 mt-8"></div>
-                <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[480px] w-full mb-2.5"></div>
-                <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 mb-2.5 w-full"></div>
-                <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[440px] w-full mb-2.5"></div>
-                <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[460px] w-full mb-2.5"></div>
-                <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[360px] w-full"></div>
+            <div className="flex flex-col gap-y-6 w-full">
+                <div className="grid md:grid-cols-2 grid-cols-1 gap-y-14 gap-x-7 xl:grid-cols-4">
+                    {Array.from({ length: 8 }).map((_, i) => (
+                        <div key={i} className="w-full min-h-[517px] min-w-[264px] max-w-[396px] animate-pulse">
+                            <div className="aspect-square w-full rounded-lg bg-gray-200"></div>
+                            <div className="mt-4 h-4 bg-gray-200 rounded w-3/4 mx-auto"></div>
+                            <div className="mt-2 h-5 bg-gray-200 rounded w-1/2 mx-auto"></div>
+                            <div className="mt-4 h-8 bg-gray-200 rounded w-24 mx-auto"></div>
+                        </div>
+                    ))}
+                </div>
             </div>
-           
-        </div>
         )
     }
     if (query.isError) {

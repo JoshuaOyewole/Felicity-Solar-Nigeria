@@ -30,6 +30,7 @@ async function Footer() {
             status: number;
         } = await res.json();
 
+       
         details = response.data;
 
     } catch (error) {

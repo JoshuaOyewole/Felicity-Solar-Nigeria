@@ -62,8 +62,6 @@ function Projects() {
     const projects = data?.data ?? [];
     const pagination = data?.pagination
 
-    console.log(data?.pagination);
-
     return (
         <>
             <section className='flex justify-center my-22 gap-y-20  flex-col gap mx-auto w-[90%] 2xl:w-[75%]'>

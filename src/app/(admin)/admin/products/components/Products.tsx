@@ -95,7 +95,7 @@ function Products() {
                             <td className="font-inter p-5 whitespace-nowrap text-sm lg:text-base leading-6 font-medium text-gray-900 ">{format(new Date(p.created_at), "do MMM, yyyy h:mmaaa")}</td>
                             <td className="font-inter p-5 whitespace-nowrap text-sm lg:text-base leading-6 font-medium text-gray-900"> {capitalizeFirstLetterOfEachWord(p.category_name)} </td>
                             <td className="font-inter p-5 whitespace-nowrap text-sm lg:text-base leading-6 font-medium text-gray-900">
-                               {/*  &#8358;{Number(p?.price).toLocaleString()} */}
+                                {/*  &#8358;{Number(p?.price).toLocaleString()} */}
 
                                 &#8358;{Number(getActualPrice(p?.price, p?.discount_rate)).toLocaleString()}
                             </td>
