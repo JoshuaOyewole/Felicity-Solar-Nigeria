@@ -49,6 +49,7 @@ function Articles() {
   blogs.sort(() => 0.5 - Math.random());
   blogs.splice(3);
   
+ 
   return (
     <section className="py-18 md:py-10 lg:py-32 flex-col flex gap-y-22">
       <div className="flex gap-y-26 mx-auto w-[90%] 2xl:w-[75%] gap-x-26 flex-col ">
@@ -75,7 +76,7 @@ function Articles() {
                 title={b.title}
                 category={b.category}
                 cover={b.thumbnail}
-                url={`/blog/${generateSlug(String(b.id))}-${b.id}`}
+                url={`/blog/${generateSlug(String(b.title))}-${b.id}`}
               />
             ))
           ) : (

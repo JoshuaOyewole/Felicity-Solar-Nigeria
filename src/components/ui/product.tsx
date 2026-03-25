@@ -23,10 +23,9 @@ function Product({ details, category_path, height = 500, width = 400 }: Props) {
 
     const blur = cldUrl(publicId, { w: 20, h: Math.round(20 * (height / width)), q: '1', f: 'auto' }); // tiny preview
 
-
     return (
         <>
-            <article className='w-full min-h-[517px] min-w-[264px] max-w-[396px]'>
+            <article className='w-full sm:min-h-[517px] sm:min-w-[264px] max-w-[396px]'>
                 <Link href={`/products${`${category_path ? `/${category_path}` : ""}`}/${generateSlug(product_name)}-${id}`} className="group flex flex-col justify-center items-center"  >
                     <Image
                         //src={image_1}
@@ -40,8 +39,8 @@ function Product({ details, category_path, height = 500, width = 400 }: Props) {
                         sizes="(max-width: 768px) 50vw, (max-width: 36000px) 25vw, 240px"
                         height={500}
                     />
-                    <h3 className="mt-4 text-sm text-center text-gray-700">{product_name}</h3>
-                    <p className="mt-1 text-center text-lg font-medium text-gray-900">
+                    <h3 className="mt-3 text-xs sm:text-sm text-center text-gray-700 line-clamp-2">{product_name}</h3>
+                    <p className="mt-1 text-center text-sm sm:text-lg font-medium text-gray-900">
                         {/*  &#8358;{Number(price).toLocaleString()} */}
 
                         &#8358;{Number(getActualPrice(price, discount_rate)).toLocaleString()}
@@ -49,7 +48,7 @@ function Product({ details, category_path, height = 500, width = 400 }: Props) {
 
                 </Link>
                 <div className="flex w-full justify-center items-center">
-                    <Link href={`/products${`${category_path ? `/${category_path}` : ""}`}/${generateSlug(product_name)}-${id}`} className="text-sm font-inter font-normal bg-primary text-white px-2 py-2 rounded-sm flex w-max mt-4" aria-label={`View details of ${product_name}`}>
+                    <Link href={`/products${`${category_path ? `/${category_path}` : ""}`}/${generateSlug(product_name)}-${id}`} className="text-xs sm:text-sm font-inter font-normal bg-primary text-white px-2 py-1.5 sm:py-2 rounded-sm flex w-max mt-3 sm:mt-4" aria-label={`View details of ${product_name}`}>
                         View Details</Link>
                 </div>
 

@@ -45,7 +45,7 @@ async function page() {
       </section>
       <section className='py-32 mx-auto w-[90%] 2xl:w-[75%]'>
         <div className=" w-full flex items-center ">
-          <div className="grid md:grid-cols-2 grid-cols-1 gap-y-14 gap-x-7 xl:grid-cols-3">
+          <div className="grid grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-y-6 gap-x-3 sm:gap-y-14 sm:gap-x-7">
             {response.data && response.data.length > 0 ?
               response.data.map(p => {
                 return (

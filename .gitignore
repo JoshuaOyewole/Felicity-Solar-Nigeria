@@ -44,3 +44,5 @@ next-env.d.ts
 
 # Local Netlify folder
 .netlify
+*.txt
+  after_service_center.txt

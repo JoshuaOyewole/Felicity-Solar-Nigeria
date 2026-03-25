@@ -166,7 +166,8 @@ export const handleImageUpload2 = async (
   }
 
 
-  return "https://res.cloudinary.com/dqkc8vle0/image/upload/v1749937588/xjdtpi2yhp5fbzjott4d.png" // Replace with actual upload logic
+  return `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUD_NAME}/image/upload/v1749937588/xjdtpi2yhp5fbzjott4d.png`
+   // Replace with actual upload logic
   //return "/images/placeholder-image.png"
 
   // Uncomment for production use:

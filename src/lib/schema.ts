@@ -54,10 +54,11 @@ const AddQuerySchema = z.object({
     message: z.string().min(1, ' required'),
 });
 const OrderProductSchema = z.object({
-    fullnames: z.string().min(1, 'Fullnames is required'),
-    product_name: z.string().min(1, 'Product name is required'),
-    email: z.string().min(1, 'Email is required'),
-    phone: z.string().min(5, 'Phone number is required'),
+    fullnames: z.string({errorMap: () => ({ message: 'Fullnames is required' })}).min(5, 'Fullnames must be at least 5 characters'),
+    product_name: z.string({errorMap: () => ({ message: 'Product name is required' })}).min(5, 'Product name must be at least 5 characters'),
+    product_id: z.string().optional(),
+    email: z.string().min(6, 'Email is required'),
+    phone: z.string().min(10, 'Phone number is required'),
     qty: z.string().optional(),
     additionalMessage: z.string().optional()
 });

@@ -14,10 +14,12 @@ function Article({ cover, title, category, url }: Props) {
   const filename = parts[parts.length - 1];
   const publicId = filename.split(".")[0];
 
+
+
   return (
     <article className="flex group flex-col  h-auto xl:min-h-[361px]">
       <div className="flex h-[230px] xl:max-h-[184px]">
-    {/*     <Image
+        {/*     <Image
           src={cover}
           width={326}
           height={184}
@@ -25,7 +27,7 @@ function Article({ cover, title, category, url }: Props) {
           style={{ width: "auto", height: "auto" }}
           className="object-cover object-center  w-full h-auto"
         /> */}
-
+      
         <Image
           //src={image_1}
           src={cldUrl(publicId, { w: 326, h: 184 })}

@@ -69,19 +69,21 @@ function MobileNavbar() {
                                         Products
                                         <ChevronRight size={18} />
                                     </li>
-                                     <li className='pb-4 '>
-                                        <Link href="/find-installers" className="w-full text-white text-left font-inter text-base">
-                                            Find Installers
+                                    <li className='pb-4 '>
+                                        <Link href="/after-sales" className="w-full text-white text-left font-inter text-base">
+                                            After sales service centers
                                         </Link>
                                     </li>
-                                    <li
+                                    {/******************** 
+                                   <li
                                         onClick={() => openDropdown("project_showcases")}
                                         className="w-full text-white text-left font-inter text-base flex justify-between pb-4 items-center "
                                     >
 
                                         Product show cases
                                         <ChevronRight size={18} />
-                                    </li>
+                                    </li> 
+                                    **********************/}
                                     <li className='pb-4 '>
                                         <Link href="/blog" className="w-full text-white text-left font-inter text-base ">
                                             Blog

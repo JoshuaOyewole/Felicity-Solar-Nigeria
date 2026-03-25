@@ -12,6 +12,7 @@ export type AddProductFormData = {
 export type ISubmitOrder = {
     fullnames: string;
     product_name: string;
+    product_id?: string;
     email: string;
     phone: string;
     qty?: string;

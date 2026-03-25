@@ -150,7 +150,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
                             */}
 
                             <div className="flex space-x-4 mb-6 mt-10 flex-col gap-y-6">
-                                <ProcessOrder productName={product?.product_name ?? ""} />
+                                <ProcessOrder productName={product?.product_name ?? ""} productId={product?.id ?? ""} />
                                 <div className="w-full">
                                     <h3 className="text-lg font-semibold mb-2">Key Features:</h3>
                                     <div className='keyFeatures-container flex flex-col gap-y-4' dangerouslySetInnerHTML={{ __html: product?.key_features }} />

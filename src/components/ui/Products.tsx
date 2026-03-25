@@ -25,9 +25,9 @@ function Products() {
     if (query.isLoading) {
         return (
             <div className="flex flex-col gap-y-6 w-full">
-                <div className="grid md:grid-cols-2 grid-cols-1 gap-y-14 gap-x-7 xl:grid-cols-4">
+                <div className="grid grid-cols-2 md:grid-cols-2 xl:grid-cols-4 gap-y-6 gap-x-3 sm:gap-y-14 sm:gap-x-7">
                     {Array.from({ length: 8 }).map((_, i) => (
-                        <div key={i} className="w-full min-h-[517px] min-w-[264px] max-w-[396px] animate-pulse">
+                        <div key={i} className="w-full sm:min-h-[517px] sm:min-w-[264px] max-w-[396px] animate-pulse">
                             <div className="aspect-square w-full rounded-lg bg-gray-200"></div>
                             <div className="mt-4 h-4 bg-gray-200 rounded w-3/4 mx-auto"></div>
                             <div className="mt-2 h-5 bg-gray-200 rounded w-1/2 mx-auto"></div>
@@ -51,7 +51,7 @@ function Products() {
 
     return (
         <div className="flex flex-col gap-y-6">
-            <div className="grid md:grid-cols-2 grid-cols-1 gap-y-14 gap-x-7 xl:grid-cols-4">
+            <div className="grid grid-cols-2 md:grid-cols-2 xl:grid-cols-4 gap-y-6 gap-x-3 sm:gap-y-14 sm:gap-x-7">
                 {
                     products.map(p => {
                         return (

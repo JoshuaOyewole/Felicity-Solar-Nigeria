@@ -216,11 +216,12 @@ const nav_items = [{
         { label: "Street Lights", url: "/products/street-lights" },
     ],
 },
+/*
 {
     url: "/find-installers",
     label: "Find Installers"
 },
-{
+ {
     url: "/project-showcase",
     label: "Project show cases",
     children: [
@@ -229,7 +230,7 @@ const nav_items = [{
         { label: "Batteries", url: "/products/batteries" },
         { label: "Street Lights", url: "/products/street-lights" },
     ],
-},
+}, */
 {
     url: "/blog",
     label: "Blog"
@@ -237,6 +238,10 @@ const nav_items = [{
 {
     url: "/contact-us",
     label: "Contact us"
+},
+{
+    url: "/after-sales",
+    label: "After-Sales Service"
 }
 ]
 
@@ -325,6 +330,10 @@ const company_nav_links = [
     {
         url: "/find-installers",
         label: "Find Installers"
+    },
+    {
+        url: "/after-sales",
+        label: "After-Sales Service"
     }
 ]
 

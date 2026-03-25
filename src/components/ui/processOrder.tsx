@@ -11,35 +11,45 @@ import { z } from 'zod';
 import SuccessfulOrderModal from './successfulOrderModal';
 import { toast } from 'react-toastify';
 
-type ErrorWithStatus = {
-    status?: number;
-    error?: string;
-};
-
 type FormSchema = z.infer<typeof OrderProductSchema>;
 
 const order = async (variables: ISubmitOrder) => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API}/orders`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(variables),
-        credentials: 'include',
-    });
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 30000);
 
-    if (!res.ok) {
-        const error = await res.json();
+    console.log("Placing order with variables:", variables);
+    try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API}/orders`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(variables),
+            credentials: 'include',
+            signal: controller.signal,
+        });
 
-        throw new Error(error.error || 'Failed to place order');
+        clearTimeout(timeoutId);
+
+        if (!res.ok) {
+            const error = await res.json();
+            throw new Error(error.error || 'Failed to place order');
+        }
+
+        return await res.json();
+    } catch (error) {
+        clearTimeout(timeoutId);
+        if (error instanceof Error && error.name === 'AbortError') {
+            throw new Error('Request timed out. Please try again.');
+        }
+        throw error;
     }
-
-    const response = await res.json();
-    return response;
 }
-function ProcessOrder({ productName }: { productName: string }) {
+function ProcessOrder({ productName, productId }: { productName: string; productId?: string }) {
     const [isOpen, setIsOpen] = useState(false)
     const [isSuccess, setIsSuccess] = useState(false);
+
+
 
     const {
         register,
@@ -52,6 +62,7 @@ function ProcessOrder({ productName }: { productName: string }) {
         defaultValues: {
             fullnames: "",
             product_name: "",
+            product_id: "",
             email: "",
             phone: "",
             qty: "1",
@@ -60,10 +71,9 @@ function ProcessOrder({ productName }: { productName: string }) {
     });
 
     useEffect(() => {
-        if (productName) {
-            setValue('product_name', productName);
-        }
-    }, [productName, setValue])
+        setValue('product_name', productName);
+        setValue('product_id', productId ? String(productId) : '');
+    }, [productName, productId, setValue])
 
 
 
@@ -72,7 +82,6 @@ function ProcessOrder({ productName }: { productName: string }) {
     })
 
     const onSubmit: SubmitHandler<FormSchema> = (data) => {
-
 
         mutation.mutate(data, {
             onSuccess: (data) => {
@@ -84,22 +93,19 @@ function ProcessOrder({ productName }: { productName: string }) {
                 reset();
             },
             onError: (error: unknown) => {
-                const typedError = error as ErrorWithStatus;
-
-                if (typedError && typedError.status === 404) {
-                    toast.error(typedError.error || "Not found");
-                }
-
+                const err = error as Error;
+                toast.error(err.message || "Failed to place order. Please try again.");
                 console.error("Error placing order:", error);
                 setIsOpen(false);
             }
         });
+
     }
 
     return (
         <>
             <button
-                onClick={() => setIsOpen(true)}
+                onClick={() => { mutation.reset(); setIsOpen(true); }}
                 className="bg-indigo-600 max-w-[170px] w-max flex gap-2 items-center text-white px-6 py-2 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                     strokeWidth="1.5" stroke="currentColor" className="size-6">
@@ -117,10 +123,12 @@ function ProcessOrder({ productName }: { productName: string }) {
                     <DialogPanel className="max-w-lg space-y-4 rounded-md bg-white px-6 py-12 overflow-y-scroll h-[100vh] lg:h-auto lg:overflow-hidden w-[98vw]">
                         <DialogTitle className="font-bold text-2xl font-inter">Place Your Order Request</DialogTitle>
                         <form onSubmit={handleSubmit(onSubmit)} className='space-y-4'>
+                            <input type="hidden" {...register('product_name')} />
+                            <input type="hidden" {...register('product_id')} />
                             <div className='mt-10 mb-4'>
                                 <p className="mb-2 text-sm font-medium text-gray-900 dark:text-white ">Product Name</p>
                                 <p className="text-[15px] border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 placeholder:text-sm">
-                                    LPBA 48V 200Ah 10kWh Grade A Lithium Phosphate Solar Battery Pack with BMS by Felicity Solar
+                                    {productName}
                                 </p>
 
                             </div>
@@ -159,6 +167,7 @@ function ProcessOrder({ productName }: { productName: string }) {
                             </div>
                             <div className="flex items-center justify-end gap-x-4">
                                 <button
+                                    type="button"
                                     onClick={() => setIsOpen(false)}
                                     className='border border-black text-black cursor-pointer px-2 py-2 text-sm rounded-md mt-8'
                                 >
