@@ -9,6 +9,7 @@ import { getActualPrice, getProductId } from '@/lib/constants'
 import { IProduct } from '../page'
 import { Metadata } from 'next'
 import ProcessOrder from '@/components/ui/processOrder'
+import { notFound } from 'next/navigation'
 
 type Props = {
     params: Promise<{ slug: string }>
@@ -16,7 +17,7 @@ type Props = {
 
 
 const getProduct = async (slug: string): Promise<IProduct> => {
-    const id = getProductId(slug) ??"";
+    const id = getProductId(slug) ?? "";
 
     const res = await fetch(`${process.env.NEXT_PUBLIC_API}/products/${id}`, {
         next: { revalidate: 3600 } // Revalidate every hour
@@ -31,7 +32,7 @@ const getProduct = async (slug: string): Promise<IProduct> => {
 export const generateMetadata = async ({ params }: Props): Promise<Metadata> => {
     const slug = (await params).slug;
 
-    const id = getProductId(slug) ??"";
+    const id = getProductId(slug) ?? "";
     const data = getProduct(id);
     if (!data) {
         return {
@@ -56,21 +57,21 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
     const slug = (await params).slug;
 
-    // Fetch product details from the API
-    const id = getProductId(slug) ??"";
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API}/products/${id}`, {
-        next: { revalidate: 3600 } // Revalidate every hour
-    });
-    const response: {
-        data: IProduct,
-        message: string,
-        status: number
-    } = await res.json();
-    if (!response || !response.data) {
-        return <p>An error occured.</p>;
-    }
-    const product = response.data;
+    const id = getProductId(slug) ?? "";
+    if (!id) notFound();
 
+    let product: IProduct;
+    try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API}/products/${id}`, {
+            next: { revalidate: 3600 }
+        });
+        if (!res.ok) notFound();
+        const response: { data: IProduct; message: string; status: number } = await res.json();
+        if (!response?.data) notFound();
+        product = response.data;
+    } catch {
+        notFound();
+    }
 
     return (
         <>
@@ -149,7 +150,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
 
                                     <div className="w-full">
                                         <h3 className="text-lg font-semibold mb-2">Key Features:</h3>
-                                        <div className="keyFeatures" dangerouslySetInnerHTML={{ __html: product?.key_features }} />
+                                        {product?.key_features && <div className="keyFeatures" dangerouslySetInnerHTML={{ __html: product?.key_features }} />}
                                     </div>
                                     {/*   <button
                                     className="bg-gray-200 flex gap-2 items-center  text-gray-800 px-6 py-2 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
@@ -173,13 +174,13 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
 
                             <div className="flex produt_description mt-10 flex-col">
                                 <h3 className="text-lg font-semibold mb-2">Description:</h3>
-                                <div className='flex text-gray-700 flex-col gap-y-4' dangerouslySetInnerHTML={{ __html: product?.description }} />
+                                {product?.description && <div className='flex text-gray-700 flex-col gap-y-4' dangerouslySetInnerHTML={{ __html: product?.description }} />}
                             </div>
 
                             {/* Product Video Section */}
                             {product?.video_link && (
                                 <div className="mt-10">
-                                    <VideoWidget 
+                                    <VideoWidget
                                         videoUrl={product.video_link}
                                         title={`${product.product_name} - Product Demo`}
                                         className="max-w-4xl"
