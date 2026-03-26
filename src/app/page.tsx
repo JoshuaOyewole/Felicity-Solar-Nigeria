@@ -360,7 +360,7 @@ export default function Home() {
                 className="text-[#101928] text-2xl md:text-3xl font-bold"
                 data-aos="zoom-in"
               >
-                Trusted after Service centre Near You
+                Expert After-Sales Support for Your Solar System
               </h2>
             </div>
             <div
