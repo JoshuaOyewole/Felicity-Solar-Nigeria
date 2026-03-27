@@ -1,0 +1,49 @@
+{
+  "nav": {
+    "home": "首页",
+    "about": "关于我们",
+    "products": "产品",
+    "blog": "博客",
+    "contact": "联系我们",
+    "after_sales": "售后服务",
+    "get_quote": "获取报价",
+    "trusted_cities_title": "覆盖各大城市",
+    "trusted_cities_desc": "我们已在全国各大城市成功交付太阳能项目。",
+    "solar_panels": "太阳能板",
+    "solar_batteries": "太阳能电池",
+    "inverters": "逆变器",
+    "charge_controllers": "充电控制器",
+    "solar_light": "太阳能灯",
+    "batteries": "电池",
+    "street_lights": "路灯",
+    "project_showcase": "项目展示",
+    "find_installers": "查找安装商",
+    "panels_tagline": "离网太阳能板？——我们有适合您空间和用电需求的太阳能板。",
+    "find_panel": "找到合适的太阳能板",
+    "batteries_tagline": "无论容量、用途或预算如何，我们都有适合您的电池。",
+    "explore_batteries": "探索我们的电池系列",
+    "inverters_tagline": "优质逆变器，确保电能转换顺畅、供电稳定",
+    "get_inverter": "选择合适的逆变器",
+    "controllers_tagline": "使用我们的太阳能充电控制器保护您的系统并延长电池寿命",
+    "find_controller": "找到合适的控制器",
+    "lights_tagline": "泛光灯或路灯——我们提供耐用的太阳能照明设备",
+    "explore_lighting": "探索照明选项"
+  },
+  "footer": {
+    "company": "公司",
+    "products": "产品",
+    "email": "邮箱",
+    "tel": "电话",
+    "copyright":"版权",
+    "rights_reserved":"版权所有",
+    "developed_by":"开发者",
+    "orisfina_tech":"奥里斯菲纳科技"
+
+  },
+  "language": {
+    "select": "语言",
+    "en": "English",
+    "zh": "中文",
+    "es": "Español"
+  }
+}

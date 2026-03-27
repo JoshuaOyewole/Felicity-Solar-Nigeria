@@ -1,9 +1,19 @@
+"use client";
 
 import { Accordion } from "radix-ui";
 import { AccordionContent, AccordionItem, AccordionTrigger } from "./accordion";
-import { faq } from "@/lib/data";
+import { faq as staticFaq } from "@/lib/data";
+import { useTranslation } from "react-i18next";
 
-const AccordionDemo: React.FC = () => (
+const AccordionDemo: React.FC = () => {
+    const { t } = useTranslation("home");
+
+    const faq = staticFaq.map((_, i) => ({
+        question: t(`faq.q${i + 1}`, { defaultValue: _.question }),
+        answer:   t(`faq.a${i + 1}`, { defaultValue: _.answer }),
+    }));
+
+    return (
     <Accordion.Root
         className="w-full rounded-md bg-white border border-grey-100 flex flex-col"
         type="single"
@@ -21,6 +31,7 @@ const AccordionDemo: React.FC = () => (
             )
         })}
     </Accordion.Root>
-);
+    );
+};
 
 export default AccordionDemo;

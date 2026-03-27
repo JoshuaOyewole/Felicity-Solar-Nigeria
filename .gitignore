@@ -46,3 +46,6 @@ next-env.d.ts
 .netlify
 *.txt
   after_service_center.txt
+
+  __mocks__/
+  src/__tests__/

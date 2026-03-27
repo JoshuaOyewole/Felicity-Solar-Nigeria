@@ -2,6 +2,7 @@
 
 import { MapPin, Phone, User, Search, Navigation, Building2 } from "lucide-react";
 import { useState, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 
 export type ServiceCenterContact = {
     name: string;
@@ -41,6 +42,7 @@ function groupByState(centers: ServiceCenter[]): StateGroup[] {
 }
 
 export default function ServiceCenters({ data }: { data: ServiceCenter[] }) {
+    const { t } = useTranslation("after-sales");
     const [query, setQuery] = useState("");
 
     const groups: StateGroup[] = useMemo(() => {
@@ -72,13 +74,13 @@ export default function ServiceCenters({ data }: { data: ServiceCenter[] }) {
                             type="text"
                             value={query}
                             onChange={(e) => setQuery(e.target.value)}
-                            placeholder="Search by city or state…"
+                            placeholder={t("search_placeholder")}
                             className="w-full h-11 pl-10 pr-4 border border-grey-200 rounded-lg text-sm text-grey-900 placeholder:text-grey-400 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary bg-white"
                         />
                     </div>
                     <p className="text-grey-500 text-sm">
-                        {totalCenters} service center{totalCenters !== 1 ? "s" : ""} found
-                        {groups.length !== totalCenters && ` across ${groups.length} state${groups.length !== 1 ? "s" : ""}`}
+                        {t("centers_found", { count: totalCenters })}
+                        {groups.length !== totalCenters && ` ${t("across_states", { count: groups.length })}`}
                     </p>
                 </div>
 
@@ -101,7 +103,7 @@ export default function ServiceCenters({ data }: { data: ServiceCenter[] }) {
                                     {group.centers.length > 1 && (
                                         <span className="flex items-center gap-x-1 bg-orange-50 text-primary text-xs font-semibold px-2.5 py-1 rounded-full border border-orange-100">
                                             <Building2 size={11} />
-                                            {group.centers.length} locations
+                                            {t("locations", { count: group.centers.length })}
                                         </span>
                                     )}
                                 </div>
@@ -151,7 +153,7 @@ export default function ServiceCenters({ data }: { data: ServiceCenter[] }) {
                                                             className="self-start flex items-center gap-x-1 text-primary text-xs font-semibold hover:underline"
                                                         >
                                                             <Navigation size={11} />
-                                                            Get Directions
+                                                            {t("get_directions")}
                                                         </a>
                                                     </div>
                                                 ))}
@@ -167,7 +169,7 @@ export default function ServiceCenters({ data }: { data: ServiceCenter[] }) {
                                         className="flex w-full items-center justify-center gap-x-1.5 py-3 text-sm font-medium text-grey-700 hover:bg-grey-100 transition-colors duration-150"
                                     >
                                         <Phone size={14} />
-                                        Call Now
+                                        {t("call_now")}
                                     </a>
                                 </div>
                             </article>
@@ -176,15 +178,15 @@ export default function ServiceCenters({ data }: { data: ServiceCenter[] }) {
                 ) : (
                     <div className="flex flex-col items-center justify-center py-20 gap-y-3 text-center">
                         <Search size={40} className="text-grey-200" />
-                        <p className="text-grey-700 font-semibold text-lg">No service centers found</p>
+                        <p className="text-grey-700 font-semibold text-lg">{t("no_results_title")}</p>
                         <p className="text-grey-500 text-sm">
-                            Try searching for a different city or state.
+                            {t("no_results_subtitle")}
                         </p>
                         <button
                             onClick={() => setQuery("")}
                             className="mt-2 text-primary text-sm font-medium hover:underline"
                         >
-                            Clear search
+                            {t("clear_search")}
                         </button>
                     </div>
                 )}

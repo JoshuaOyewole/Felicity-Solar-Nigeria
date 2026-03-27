@@ -4,7 +4,8 @@ import Image from "next/image";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { testimonials } from "../../lib/data"
+import { useTranslation } from "react-i18next";
+import { testimonials as staticTestimonials } from "../../lib/data";
 
 export class testimonial {
   name!: string;
@@ -48,6 +49,18 @@ const settings = {
 };
 
 const Testimonials = () => {
+  const { t } = useTranslation("home");
+
+  const testimonials = staticTestimonials.map((tm, i) => {
+    const key = `t${i + 1}` as const;
+    return {
+      ...tm,
+      name:     t(`testimonials.${key}_name`,     { defaultValue: tm.name }),
+      location: t(`testimonials.${key}_location`, { defaultValue: tm.location }),
+      message:  t(`testimonials.${key}_message`,  { defaultValue: tm.message }),
+    };
+  });
+
   return (
     <Slider {...settings}>
       {testimonials.map((tm: testimonial, i: number) => {

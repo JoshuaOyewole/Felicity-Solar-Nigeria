@@ -8,6 +8,8 @@ import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import MobileProductDropdown from './components/MobileProductDropdown';
 import MobileShowcaseDropdown from './components/MobileShowcaseDropdown';
+import { useTranslation } from 'react-i18next';
+import LanguageSwitcher from '@/components/LanguageSwitcher';
 
 //
 
@@ -15,6 +17,7 @@ function MobileNavbar() {
     const pathname = usePathname();
     const [activeDropdown, setActiveDropdown] = useState<string>("default");
     const isHomePage = pathname === '/'
+    const { t } = useTranslation('common');
 
     const openDropdown = (dropdown: string) => {
         setActiveDropdown(dropdown);
@@ -59,19 +62,19 @@ function MobileNavbar() {
                                     </li>
                                     <li className='pb-4 '>
                                         <Link href="/about-us" className="w-full text-white text-left font-inter text-base">
-                                            About us
+                                            {t('nav.about')}
                                         </Link>
                                     </li>
                                     <li
                                         onClick={() => openDropdown("products")}
                                         className="w-full text-white text-left font-inter text-base flex justify-between pb-4 items-center "
                                     >
-                                        Products
+                                        {t('nav.products')}
                                         <ChevronRight size={18} />
                                     </li>
                                     <li className='pb-4 '>
                                         <Link href="/after-sales" className="w-full text-white text-left font-inter text-base">
-                                            After sales service centers
+                                            {t('nav.after_sales')}
                                         </Link>
                                     </li>
                                     {/******************** 
@@ -86,12 +89,12 @@ function MobileNavbar() {
                                     **********************/}
                                     <li className='pb-4 '>
                                         <Link href="/blog" className="w-full text-white text-left font-inter text-base ">
-                                            Blog
+                                            {t('nav.blog')}
                                         </Link>
                                     </li>
                                     <li className='pb-4 '>
                                         <Link href="/contact-us" className="w-full text-white text-left font-inter text-base ">
-                                            Contact us
+                                            {t('nav.contact')}
                                         </Link>
                                     </li>
                                 </ul>
@@ -110,10 +113,12 @@ function MobileNavbar() {
 
 
                         <div className=" space-y-7 w-full">
+                            <div className="flex justify-start">
+                                <LanguageSwitcher theme="light" />
+                            </div>
                             <button className="bg-white w-full outline-none h-12 py-2 rounded-lg flex items-center justify-center">
-                                <span className='font-inter font-medium text-base'>Get a Quote </span>
+                                <span className='font-inter font-medium text-base'>{t('nav.get_quote')}</span>
                             </button>
-
                         </div>
 
                     </div>

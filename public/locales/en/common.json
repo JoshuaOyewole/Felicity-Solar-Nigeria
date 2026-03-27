@@ -1,0 +1,48 @@
+{
+    "nav": {
+        "home": "Home",
+        "about": "About us",
+        "products": "Products",
+        "blog": "Blog",
+        "contact": "Contact us",
+        "after_sales": "After-Sales Service",
+        "get_quote": "Get a Quote",
+        "trusted_cities_title": "Trusted Across Cities",
+        "trusted_cities_desc": "We've delivered successful solar projects in major cities across the country.",
+        "solar_panels": "Solar Panels",
+        "solar_batteries": "Solar Batteries",
+        "inverters": "Inverters",
+        "charge_controllers": "Charge Controllers",
+        "solar_light": "Solar Light",
+        "batteries": "Batteries",
+        "street_lights": "Street Lights",
+        "project_showcase": "Project Showcase",
+        "find_installers": "Find Installers",
+        "panels_tagline": "Off Grid Solar Panels? — we have panels to fit your space and power goals.",
+        "find_panel": "Find the Perfect Panel",
+        "batteries_tagline": "No matter the capacity, use case, or budget — we've got the right battery for you.",
+        "explore_batteries": "Explore Our Batteries",
+        "inverters_tagline": "Top-quality options that ensure smooth energy conversion and seamless power delivery",
+        "get_inverter": "Get the Right Inverter",
+        "controllers_tagline": "Protect your system and extend battery life with our range of solar charge controllers",
+        "find_controller": "Find the Right Match",
+        "lights_tagline": "Flood lights or street lights — we've got solar lighting built to last",
+        "explore_lighting": "Explore Lighting Options"
+    },
+    "footer": {
+        "company": "Company",
+        "products": "Products",
+        "email": "Email",
+        "tel": "Phone",
+        "copyright": "Copyright",
+        "rights_reserved": "All rights reserved",
+        "developed_by": "Developed by",
+        "orisfina_tech": "Orisfina Technology"
+    },
+    "language": {
+        "select": "Language",
+        "en": "English",
+        "zh": "中文",
+        "es": "Español"
+    }
+}

@@ -1,0 +1,105 @@
+{
+  "hero": {
+    "title_part1": "Energiza hogares, empresas y",
+    "title_part2": "grandes proyectos con una",
+    "title_highlight": "marca",
+    "title_part3": "en la que puedes confiar.",
+    "subtitle": "Felicity Solar ofrece soluciones integrales — producción, ventas, instalación y soporte postventa a nivel nacional.",
+    "cta_quote": "Obtener Cotización Gratis",
+    "cta_browse": "Ver productos"
+  },
+  "stats": {
+    "years": "Años en el Negocio",
+    "service_centers": "Centros de Servicio",
+    "installers": "Instaladores Certificados",
+    "customers": "Clientes Satisfechos"
+  },
+  "products_section": {
+    "eyebrow": "Nuestros Productos",
+    "title": "Productos Más Vendidos",
+    "description": "Descubra nuestras soluciones solares de mejor rendimiento — de confianza para miles de hogares y empresas en Nigeria.",
+    "see_all": "Ver todos los productos"
+  },
+  "why_us": {
+    "eyebrow": "Por qué Felicity Solar",
+    "title": "Construido en Torno a Sus Necesidades",
+    "description": "Desde productos de calidad hasta soporte dedicado, todo lo que hacemos está diseñado para brindarle energía confiable — sin preocupaciones.",
+    "certified_title": "Certificado y Confiable",
+    "certified_desc": "Cada producto es probado y certificado para cumplir con los estándares internacionales, brindándole tranquilidad.",
+    "performance_title": "Alto Rendimiento",
+    "performance_desc": "Tasas de eficiencia líderes en la industria en paneles, inversores y baterías diseñados para el clima de Nigeria.",
+    "coverage_title": "Cobertura Nacional",
+    "coverage_desc": "Más de 12 centros de servicio en Nigeria garantizan que nunca esté lejos del soporte experto.",
+    "support_title": "Postventa Dedicado",
+    "support_desc": "Nuestro equipo siempre está disponible para mantenimiento, reclamaciones de garantía y orientación técnica."
+  },
+  "products_offer": {
+    "eyebrow": "Productos Felicity Solar",
+    "title": "¿Qué le Ofrecemos?",
+    "subtitle": "Paneles Solares. Baterías. Inversores. Todo en un Solo Lugar."
+  },
+  "production_pillars": {
+    "eyebrow": "Cómo Operamos",
+    "title": "Soluciones Solares de Extremo a Extremo",
+    "subtitle": "Desde la fabricación hasta el postventa, cada paso está diseñado para su éxito.",
+    "p1_title": "Excelencia en Fabricación",
+    "p1_desc": "Líneas de fábrica modernas garantizan calidad consistente en paneles, inversores y baterías.",
+    "p2_title": "Distribución Nacional",
+    "p2_desc": "Logística robusta y almacenes regionales para entregas rápidas y confiables.",
+    "p3_title": "Ventas Minoristas y de Proyectos",
+    "p3_desc": "Equipos dedicados para suministro residencial, comercial y de megaproyectos.",
+    "p4_title": "Soporte Postventa",
+    "p4_desc": "Centros de servicio y técnicos certificados para mantenimiento y garantías."
+  },
+  "testimonials": {
+    "eyebrow": "Testimonios",
+    "title": "Lo que Dicen Nuestros Clientes",
+    "t1_name": "Sr. Adeola I.",
+    "t1_location": "Estado de Lagos, Nigeria",
+    "t1_message": "Cambiar a Felicity Solar fue la mejor decisión para mi negocio. Nuestros costos de energía han bajado más del 60% y el rendimiento de la batería solar es inigualable. ¡Productos confiables, soporte de primer nivel!",
+    "t2_name": "Tunde A.",
+    "t2_location": "Abuja, Nigeria",
+    "t2_message": "Hemos tenido energía constante desde que instalamos los paneles y el sistema inversor de Felicity Solar. La instalación fue impecable y el equipo fue increíblemente profesional. ¡Por fin tengo tranquilidad!",
+    "t3_name": "Dominic E.",
+    "t3_location": "Estado de Edo, Nigeria",
+    "t3_message": "Felicity Solar proporcionó a nuestra comunidad luces solares de piso y almacenamiento de baterías, transformando nuestras noches — sin más oscuridad ni problemas de seguridad. Sus productos están hechos para durar.",
+    "t4_name": "Ing. Boma K.",
+    "t4_location": "Hospital CareMed",
+    "t4_message": "Nuestro hospital adoptó los controladores de carga solar y sistemas de respaldo de Felicity Solar. Incluso durante los apagones, seguimos operando. Su tecnología es eficiente y confiable — verdaderamente salvadora.",
+    "t5_name": "Ola O.",
+    "t5_location": "StackDev Limited",
+    "t5_message": "Como fundador de una startup que trabaja de forma remota, la estabilidad eléctrica es crítica. La combinación de inversor y batería de Felicity Solar ha sido impecable. Los he recomendado a todo mi círculo tecnológico.",
+    "t6_name": "Grace N.",
+    "t6_location": "Directora de Programas, EduLight Africa",
+    "t6_message": "Instalamos paneles y luces de Felicity Solar en cinco escuelas rurales. El impacto ha sido increíble — los estudiantes ahora estudian después del anochecer y los maestros se sienten más seguros. Calidad con propósito.",
+    "t7_name": "Chijioke M.",
+    "t7_location": "Director General, GreenHaven Properties",
+    "t7_message": "Felicity Solar ha sido nuestro socio de referencia para soluciones solares en todos nuestros proyectos residenciales. Sus paneles e inversores son altamente eficientes y a los clientes les encantan los ahorros. ¡Es un ganar-ganar!"
+  },
+  "faq": {
+    "eyebrow": "Preguntas Frecuentes",
+    "title": "Preguntas Frecuentes",
+    "q1": "¿Qué productos ofrece Felicity Solar Limited?",
+    "a1": "Felicity Solar Limited se especializa en soluciones solares de alta calidad, incluyendo paneles solares, baterías de litio y de gel, inversores, farolas solares, controladores de carga y sistemas de energía solar completos para uso residencial, comercial e industrial.",
+    "q2": "¿Felicity Solar ofrece servicios de instalación?",
+    "a2": "Sí, brindamos servicios de instalación profesional a través de nuestros técnicos certificados para garantizar que su sistema solar esté configurado de forma segura y eficiente para un máximo rendimiento.",
+    "q3": "¿Sus productos solares son adecuados para Nigeria y África Occidental?",
+    "a3": "Absolutamente. Todos nuestros productos están diseñados y probados para funcionar de manera óptima bajo las condiciones climáticas tropicales de Nigeria y otros países de África Occidental.",
+    "q4": "¿Sus baterías solares incluyen garantía?",
+    "a4": "Sí, nuestras baterías solares — tanto de litio como de gel — incluyen garantías de 1 a 5 años según el modelo, asegurando que obtenga valor y tranquilidad en cada compra.",
+    "q5": "¿Cómo puedo realizar un pedido o solicitar una cotización?",
+    "a5": "Puede realizar un pedido o solicitar una cotización a través del formulario de contacto de nuestro sitio web, llamando a nuestra línea de atención al cliente, o visitando cualquiera de nuestras oficinas o distribuidores autorizados.",
+    "q6": "¿Ofrecen soporte posventa y mantenimiento?",
+    "a6": "Sí, Felicity Solar está comprometida con la satisfacción del cliente. Brindamos soporte posventa continuo, orientación de mantenimiento y asistencia técnica para ayudarle a aprovechar al máximo su inversión solar."
+  },
+  "articles": {
+    "eyebrow": "Blog",
+    "title": "Últimos Artículos",
+    "read_more": "Leer más"
+  },
+  "cta_banner": {
+    "title": "¿Listo para pasarse a la energía solar?",
+    "subtitle": "Únase a miles de nigerianos que confían en Felicity Solar para obtener energía limpia y confiable.",
+    "button": "Obtener Cotización Gratis por WhatsApp"
+  }
+}

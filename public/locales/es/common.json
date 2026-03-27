@@ -1,0 +1,48 @@
+{
+    "nav": {
+        "home": "Inicio",
+        "about": "Sobre nosotros",
+        "products": "Productos",
+        "blog": "Blog",
+        "contact": "Contáctenos",
+        "after_sales": "Servicio Posventa",
+        "get_quote": "Obtener Cotización",
+        "trusted_cities_title": "Presencia en Ciudades",
+        "trusted_cities_desc": "Hemos entregado proyectos solares exitosos en las principales ciudades del país.",
+        "solar_panels": "Paneles Solares",
+        "solar_batteries": "Baterías Solares",
+        "inverters": "Inversores",
+        "charge_controllers": "Controladores de Carga",
+        "solar_light": "Luminarias Solares",
+        "batteries": "Baterías",
+        "street_lights": "Alumbrado Público",
+        "project_showcase": "Proyectos Realizados",
+        "find_installers": "Buscar Instaladores",
+        "panels_tagline": "¿Paneles solares fuera de red? — tenemos paneles para su espacio y objetivos de energía.",
+        "find_panel": "Encuentre el Panel Perfecto",
+        "batteries_tagline": "Sin importar la capacidad, uso o presupuesto — tenemos la batería adecuada para usted.",
+        "explore_batteries": "Explorar Nuestras Baterías",
+        "inverters_tagline": "Opciones de alta calidad que garantizan una conversión de energía fluida y entrega de electricidad sin interrupciones",
+        "get_inverter": "Obtenga el Inversor Correcto",
+        "controllers_tagline": "Proteja su sistema y extienda la vida de la batería con nuestra gama de controladores de carga solar",
+        "find_controller": "Encuentre el Modelo Adecuado",
+        "lights_tagline": "Focos o alumbrado público — tenemos iluminación solar diseñada para durar",
+        "explore_lighting": "Explorar Opciones de Iluminación"
+    },
+    "footer": {
+        "company": "Empresa",
+        "products": "Productos",
+        "email": "Correo Electrónico",
+        "tel": "Teléfono",
+        "copyright": "Copyright",
+        "rights_reserved": "Todos los derechos reservados",
+        "developed_by": "Desarrollado por",
+        "orisfina_tech": "Orisfina Technology"
+    },
+    "language": {
+        "select": "Idioma",
+        "en": "English",
+        "zh": "中文",
+        "es": "Español"
+    }
+}
