@@ -14,7 +14,7 @@ async function Footer() {
     let details: IFooterData | null = null;
     try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_API}/contact-details`, {
-            cache: 'no-store'
+            next: { revalidate: 3600 }
         });
         if (!res.ok) throw new Error('Failed to fetch contact details');
 
