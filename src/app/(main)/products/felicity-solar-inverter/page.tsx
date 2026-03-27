@@ -21,7 +21,10 @@ export const metadata: Metadata = {
     url: '/products/felicity-solar-inverter',
     images: [{ url: '/assets/images/solar_street_light.jpg', alt: 'Felicity Hybrid Inverters Nigeria' }],
   },
-}, { next: { revalidate: 3600 } });
+}
+
+async function page() {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API}/products/category/3`, { next: { revalidate: 3600 } });
   const response: IProductsResponse = await res.json();
   if (!response || !response.data) {
     return <p>No products available at the moment.</p>;
@@ -56,7 +59,7 @@ export const metadata: Metadata = {
                   <Product
                     details={p}
                     key={p.id}
-                    category_path="felicity-solar-batteries"
+                    category_path="felicity-solar-inverter"
                   />
                 )
               })

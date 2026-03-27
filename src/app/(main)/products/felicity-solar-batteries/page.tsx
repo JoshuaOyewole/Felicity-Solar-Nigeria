@@ -21,7 +21,10 @@ export const metadata: Metadata = {
     url: '/products/felicity-solar-batteries',
     images: [{ url: '/assets/images/solar_street_light.jpg', alt: 'Felicity Lithium Batteries Nigeria' }],
   },
-}, { next: { revalidate: 3600 } });
+}
+
+async function page() {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API}/products/category/2`, { next: { revalidate: 3600 } });
   const response: IProductsResponse = await res.json();
   if (!response || !response.data) {
     return <p>No products available at the moment.</p>;

@@ -53,6 +53,18 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
                 images: [product.image_1],
             },
         };
+    } catch (error) {
+        console.error(error);
+        return {
+            title: "Product Not Found | Felicity Solar",
+            description: "We couldn't find this product. Browse our catalog for more solar solutions.",
+        };
+    }
+}
+
+export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
+    const slug = (await params).slug;
+    const id = getProductId(slug) ?? "";
     const res = await fetch(`${process.env.NEXT_PUBLIC_API}/products/${id}`, {
         next: { revalidate: 3600 } // Revalidate every hour
     });

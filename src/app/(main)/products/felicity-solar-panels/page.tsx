@@ -4,7 +4,7 @@ import { ChevronRight } from 'lucide-react'
 import { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
-import React from 'react'
+//import React from 'react'
 import { IProductsResponse } from '../page'
 
 //

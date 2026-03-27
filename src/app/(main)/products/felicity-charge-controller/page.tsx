@@ -22,6 +22,8 @@ export const metadata: Metadata = {
     images: [{ url: '/assets/images/solar_street_light.jpg', alt: 'Felicity MPPT Charge Controllers' }],
   },
 }
+
+async function getProducts() {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API}/products/category/5`, { next: { revalidate: 3600 } });
     const data: IProductsResponse = await res.json();
@@ -32,6 +34,7 @@ export const metadata: Metadata = {
     console.error(error);
     return [];
   }
+  return [];
 }
 async function page() {
   const products = await getProducts();

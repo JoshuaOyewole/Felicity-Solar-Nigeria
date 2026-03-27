@@ -316,7 +316,7 @@ function EditProduct({ id }: IProps) {
                                         className="hidden"
                                     />
                                 </div>
-                                {errors.thumbnail1 && <p className="text-red-500 text-sm">{errors.thumbnail1.message}</p>}
+                             {/*    {errors?.thumbnail1 && <p className="text-red-500 text-sm">{errors?.thumbnail1.message}</p>} */}
                             </div>
                             <div className="flex flex-col w-full">
                                 <div
@@ -333,7 +333,7 @@ function EditProduct({ id }: IProps) {
                                         className="hidden"
                                     />
                                 </div>
-                                {errors.thumbnail1 && <p className="text-red-500 text-sm">{errors.thumbnail1.message}</p>}
+                                {/* {errors?.thumbnail2 && <p className="text-red-500 text-sm">{errors?.thumbnail2.message}</p>} */}
                             </div>
                             <div className="flex flex-col w-full">
                                 <div
@@ -350,7 +350,7 @@ function EditProduct({ id }: IProps) {
                                         className="hidden"
                                     />
                                 </div>
-                                {errors.thumbnail3 && <p className="text-red-500 text-sm">{errors.thumbnail3.message}</p>}
+                                {/* {errors?.thumbnail3 && <p className="text-red-500 text-sm">{errors?.thumbnail3.message}</p>} */}
                             </div>
                             <div className="flex flex-col w-full">
                                 <div
