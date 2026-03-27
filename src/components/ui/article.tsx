@@ -1,7 +1,7 @@
 import Image from "next/image";
 import LinkButton from "./Link";
 import { MoveRight } from "lucide-react";
-import { cldUrl } from "@/utils/cloudinary";
+import { cldUrl, getPublicId } from "@/utils/cloudinary";
 type Props = {
   cover: string;
   title: string;
@@ -10,11 +10,7 @@ type Props = {
 };
 
 function Article({ cover, title, category, url }: Props) {
-  const parts = cover.split("/");
-  const filename = parts[parts.length - 1];
-  const publicId = filename.split(".")[0];
-
-
+  const publicId = getPublicId(cover);
 
   return (
     <article className="flex group flex-col  h-auto xl:min-h-[361px]">

@@ -53,6 +53,7 @@ function Articles() {
     const articles: IBlog[] = data.data;
     const pagination: IPagination = data.pagination;
 
+    console.log("Blog:==>", articles)
   
     return (
         <React.Fragment>

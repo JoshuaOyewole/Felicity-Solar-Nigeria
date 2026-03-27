@@ -3,7 +3,7 @@ import Image from 'next/image'
 import { IProduct } from '@/app/(main)/products/page'
 import Link from 'next/link'
 import { generateSlug, getActualPrice } from '@/lib/constants'
-import { cldUrl } from '@/utils/cloudinary'
+import { cldUrl, getPublicId } from '@/utils/cloudinary'
 
 
 
@@ -17,9 +17,7 @@ type Props = {
 
 function Product({ details, category_path, height = 500, width = 400 }: Props) {
     const { id, product_name, price, image_1, discount_rate } = details;
-    const parts = image_1.split('/');
-    const filename = parts[parts.length - 1];
-    const publicId = filename.split('.')[0];
+    const publicId = getPublicId(image_1);
 
     const blur = cldUrl(publicId, { w: 20, h: Math.round(20 * (height / width)), q: '1', f: 'auto' }); // tiny preview
 

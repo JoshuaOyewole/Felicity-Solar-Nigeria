@@ -1,4 +1,17 @@
 // utils/cloudinary.ts
+
+/** Extracts the Cloudinary public ID (including folder path) from a full Cloudinary URL. */
+export function getPublicId(url: string): string {
+  const uploadMarker = '/upload/';
+  const idx = url.indexOf(uploadMarker);
+  if (idx === -1) return url;
+  const afterUpload = url.slice(idx + uploadMarker.length);
+  // Strip optional version segment e.g. v1774631114/
+  const withoutVersion = afterUpload.replace(/^v\d+\//, '');
+  // Strip file extension
+  return withoutVersion.replace(/\.[^/.]+$/, '');
+}
+
 export function cldUrl(publicId: string, opts: {
   w?: number; h?: number; fit?: 'fill'|'fill_pad'|'fit'|'crop';
   q?: string; f?: string; dpr?: string;

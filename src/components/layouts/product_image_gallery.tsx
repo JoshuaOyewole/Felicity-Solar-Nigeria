@@ -1,6 +1,6 @@
 "use client";
 
-import { cldUrl } from '@/utils/cloudinary';
+import { cldUrl, getPublicId } from '@/utils/cloudinary';
 import Image from 'next/image';
 import React, { useState } from 'react'
 
@@ -19,12 +19,7 @@ function ProductImageGallery({ desc, cover, img2, img3, img4, height = 160, widt
         setCoverImg(img)
     }
 
-    function getPublicId(imgUrl: string) {
-        const parts = imgUrl.split('/');
-        const filename = parts[parts.length - 1];
-        const publicId = filename.split('.')[0];
-        return publicId
-    }
+
     return (
         <div className="w-full md:w-1/2 md:px-4 mb-8">
             {cover && <Image
