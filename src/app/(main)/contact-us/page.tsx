@@ -11,8 +11,15 @@ import React from 'react'
 
 
 export const metadata: Metadata = {
-  title: 'Contact us - Felicity Solar',
-  description: 'We have the best Solar products in town. Hybrid inverter, MPPT controller, Solar lithium battery, Gel battery, Solar all in one street light',
+  title: 'Contact Felicity Solar Nigeria | Call or WhatsApp',
+  description: 'Contact Felicity Solar Nigeria for products, pricing and support. Call or WhatsApp us — offices in Lagos, Abuja and across Nigeria. We reply within 24 hours.',
+  keywords: ['contact felicity solar', 'felicity solar nigeria phone number', 'felicity solar abuja', 'felicity solar lagos', 'felicity nigeria'],
+  openGraph: {
+    title: 'Contact Felicity Solar Nigeria',
+    description: 'Call or WhatsApp Felicity Solar Nigeria for products, pricing and technical support. Offices across Nigeria.',
+    url: '/contact-us',
+    images: [{ url: '/assets/images/solar_street_light.jpg', alt: 'Contact Felicity Solar Nigeria' }],
+  },
 }
 
 async function page() {

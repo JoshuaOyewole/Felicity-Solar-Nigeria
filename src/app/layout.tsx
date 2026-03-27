@@ -1,4 +1,5 @@
 import AOSInitializer from "@/components/AOSInitializer";
+import type { Metadata } from "next";
 import "./globals.css"
 import { Inter } from "next/font/google";
 import ReactQueryProvider from "./provider";
@@ -14,9 +15,24 @@ const inter = Inter({
   display: "swap",
 });
 
-export const metadata = {
-  title: "Felicity Solar",
-  description: "Solar energy solutions",
+export const metadata: Metadata = {
+  metadataBase: new URL("https://www.felicitysolar.ng"),
+  title: "Felicity Solar Nigeria — Official Website",
+  description: "Official Felicity Solar Nigeria website. Buy hybrid inverters, lithium batteries, solar panels, MPPT charge controllers and solar street lights. View price list and get a free quote.",
+  openGraph: {
+    siteName: "Felicity Solar Nigeria",
+    type: "website",
+    locale: "en_NG",
+    images: [{ url: "/assets/images/solar_street_light.jpg", width: 1200, height: 630, alt: "Felicity Solar Nigeria — Solar Inverters, Batteries & Panels" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true },
+  },
 };
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {

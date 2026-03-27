@@ -12,8 +12,15 @@ import { IProductsResponse } from '../page'
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Solar Lights - Felicity Solar',
-  description: 'We have the best Solar products in town. Hybrid inverter, MPPT controller, Solar lithium battery, Gel battery, Solar all in one street light',
+  title: 'Felicity Solar Home & Garden Lights | Nigeria',
+  description: 'Felicity solar lights for Nigerian homes and outdoor spaces — solar bulbs, garden lights and home lighting kits. Reliable, affordable solar lighting solutions with no electricity cost.',
+  keywords: ['felicity solar lights', 'solar home lighting system nigeria', 'solar garden light nigeria', 'solar bulb nigeria', 'felicity solar light price'],
+  openGraph: {
+    title: 'Felicity Solar Lights Nigeria',
+    description: 'Buy Felicity solar lights for homes and outdoor spaces in Nigeria. Reliable, affordable solar lighting.',
+    url: '/products/felicity-solar-lights',
+    images: [{ url: '/assets/images/solar_street_light.jpg', alt: 'Felicity Solar Lights Nigeria' }],
+  },
 }
 
 async function page() {

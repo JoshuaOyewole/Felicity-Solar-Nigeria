@@ -41,8 +41,15 @@ export type IinstallersResponse = {
 } */
 
 export const metadata: Metadata = {
-  title: 'Distributors Locations- Felicity Solar',
-  description: 'We have the best Solar products in town. Hybrid inverter, MPPT controller, Solar lithium battery, Gel battery, Solar all in one street light',
+  title: 'Find Felicity Solar Dealers & Installers | Nigeria',
+  description: 'Find certified Felicity Solar dealers and installers in your state — Lagos, Abuja, Port Harcourt and across Nigeria. Get professional solar installation near you.',
+  keywords: ['felicity solar abuja', 'felicity solar dealers nigeria', 'felicity solar installer nigeria', 'felicity solar distributor', 'find solar installer nigeria'],
+  openGraph: {
+    title: 'Find Felicity Solar Dealers & Installers Nigeria',
+    description: 'Locate certified Felicity Solar dealers and installers in Lagos, Abuja, Port Harcourt and across Nigeria.',
+    url: '/find-installers',
+    images: [{ url: '/assets/images/solar_street_light.jpg', alt: 'Felicity Solar Installers Nigeria' }],
+  },
 }
 
 async function Page({ searchParams }: { searchParams: Promise<{ stateId: number | string }> }) {

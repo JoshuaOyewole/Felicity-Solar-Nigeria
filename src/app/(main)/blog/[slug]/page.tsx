@@ -57,11 +57,22 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
         } = await res.json();
 
         const article = data.data;
+        const plainDescription = article.content.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 160);
 
         return {
             title: `${article.title} | Felicity Solar`,
-            description: article.content.slice(0, 160), // Shorten description for SEO
+            description: plainDescription,
             openGraph: {
+                title: article.title,
+                description: plainDescription,
+                type: 'article',
+                siteName: 'Felicity Solar Nigeria',
+                images: [{ url: article.thumbnail, alt: article.title }],
+            },
+            twitter: {
+                card: 'summary_large_image',
+                title: article.title,
+                description: plainDescription,
                 images: [article.thumbnail],
             },
         };

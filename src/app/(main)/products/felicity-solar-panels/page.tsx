@@ -12,8 +12,15 @@ import { IProductsResponse } from '../page'
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Solar Panels - Felicity Solar',
-  description: 'We have the best Solar products in town. Hybrid inverter, MPPT controller, Solar lithium battery, Gel battery, Solar all in one street light',
+  title: 'Felicity Solar Panels Nigeria | Buy Mono & Poly Panels Online',
+  description: 'Felicity solar panels in Nigeria — monocrystalline and polycrystalline options for homes and businesses. Compare panel specs and prices. Order genuine Felicity panels online.',
+  keywords: ['felicity solar panels', 'felicity solar panel price in nigeria', 'solar panel nigeria', 'monocrystalline solar panel nigeria', 'felicity solar panel'],
+  openGraph: {
+    title: 'Felicity Solar Panels Nigeria',
+    description: 'Buy genuine Felicity solar panels in Nigeria. Mono and poly options for homes and businesses. Best prices.',
+    url: '/products/felicity-solar-panels',
+    images: [{ url: '/assets/images/solar_street_light.jpg', alt: 'Felicity Solar Panels Nigeria' }],
+  },
 }
 
 async function page() {

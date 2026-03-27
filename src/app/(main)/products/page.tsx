@@ -41,8 +41,15 @@ export type IProductResponse = {
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Products - Felicity Solar',
-  description: 'We have the best Solar products in town. Hybrid inverter, MPPT controller, Solar lithium battery, Gel battery, Solar all in one street light',
+  title: 'All Felicity Solar Products Nigeria | Shop Online',
+  description: 'All Felicity Solar products in Nigeria — hybrid inverters, lithium batteries, solar panels, MPPT charge controllers and solar street lights. View specs, prices and order online.',
+  keywords: ['felicity solar products', 'felicity solar price list', 'felicity solar nigeria', 'solar products nigeria', 'felicity solar price list pdf'],
+  openGraph: {
+    title: 'All Felicity Solar Products Nigeria',
+    description: 'Browse all Felicity Solar products — inverters, batteries, panels, charge controllers and street lights. Order online.',
+    url: '/products',
+    images: [{ url: '/assets/images/solar_street_light.jpg', alt: 'Felicity Solar Products Nigeria' }],
+  },
 }
 
 async function page() {

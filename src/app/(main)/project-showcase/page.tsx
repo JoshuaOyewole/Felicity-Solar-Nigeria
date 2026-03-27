@@ -8,8 +8,15 @@ import Projects from './components/Projects'
 
 
 export const metadata: Metadata = {
-  title: "Project Catelogue - Felicity Solar",
-  description: '...',
+  title: "Felicity Solar Project Showcases | Real Installations Nigeria",
+  description: "Real Felicity Solar installations across Nigeria. Browse residential and commercial projects featuring hybrid inverters, lithium batteries and solar panel systems.",
+  keywords: ['felicity solar projects', 'solar installation nigeria', 'felicity solar nigeria', 'solar system installation photos nigeria'],
+  openGraph: {
+    title: 'Felicity Solar Project Showcases Nigeria',
+    description: 'Browse real Felicity Solar residential and commercial installations across Nigeria.',
+    url: '/project-showcase',
+    images: [{ url: '/assets/images/solar_street_light.jpg', alt: 'Felicity Solar Project Showcases Nigeria' }],
+  },
 }
 
 

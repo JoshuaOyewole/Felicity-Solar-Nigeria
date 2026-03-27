@@ -6,7 +6,6 @@ import { z } from "zod";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { EditProductSchema } from '@/lib/schema';
 import { ChevronLeft, CloudUpload } from 'lucide-react';
-import { ICreateProduct } from '@/lib/types';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 import { SimpleEditor } from '@/components/tiptap/editor/simple-editor';
@@ -40,21 +39,16 @@ export const fetchProduct = async (id: string) => {
 
     return await json;
 }
-const editProduct = async (variables: ICreateProduct) => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API}/products/${variables.id}`, {
+const editProduct = async ({ id, formData }: { id: string; formData: FormData }) => {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API}/products/${id}`, {
         method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(variables),
+        body: formData,
         credentials: 'include',
     });
 
     if (!res.ok) {
         const errorBody = await res.json();
-
         const error = new Error(errorBody.error || 'An error occurred');
-        // Attach custom structured properties
         (error as any).status = res.status;
         (error as any).data = errorBody;
         throw error;
@@ -77,7 +71,8 @@ function EditProduct({ id }: IProps) {
     const fileInputRef2 = useRef<HTMLInputElement | null>(null);
     const fileInputRef3 = useRef<HTMLInputElement | null>(null);
     const fileInputRef4 = useRef<HTMLInputElement | null>(null);
-    const [uploading, setUploading] = useState(false);
+    const [imageFiles, setImageFiles] = useState<(File | null)[]>([null, null, null, null]);
+    const [previewUrls, setPreviewUrls] = useState<string[]>(['', '', '', '']);
     const [description, setDescription] = useState<string | undefined>(undefined);
     const [keyFeatures, setKeyFeatures] = useState<string | undefined>(undefined);
 
@@ -101,10 +96,6 @@ function EditProduct({ id }: IProps) {
             category: '',
             price: '',
             discount: '0',
-            thumbnail1: '',
-            thumbnail2: '',
-            thumbnail3: '',
-            thumbnail4: null,
             videoLink: '',
         }
     });
@@ -117,7 +108,7 @@ function EditProduct({ id }: IProps) {
 
     const MAX_IMAGE_SIZE = 2 * 1024 * 1024; // 2MB
 
-    const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, fieldValue: "thumbnail1" | "thumbnail2" | "thumbnail3" | "thumbnail4") => {
+    const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
         const file = e.target.files?.[0];
         if (!file) return;
 
@@ -127,29 +118,16 @@ function EditProduct({ id }: IProps) {
             return;
         }
 
-        const formData = new FormData();
-        formData.append('file', file);
-
-        setUploading(true);
-        try {
-            const res = await fetch('/api/upload', {
-                method: 'POST',
-                body: formData,
-                credentials: 'include',
-            });
-            if (!res.ok) {
-                const body = await res.json().catch(() => ({}));
-                toast.error(body.error ?? 'Image upload failed.');
-                return;
-            }
-            const data = await res.json();
-            setValue(fieldValue, data.url);
-        } catch (err) {
-            console.error('Image upload failed:', err);
-            toast.error('Image upload failed. Please try again.');
-        } finally {
-            setUploading(false);
+        const newFiles = [...imageFiles];
+        const newPreviews = [...previewUrls];
+        // Only revoke if it's a blob URL (not an existing remote URL)
+        if (newPreviews[index] && newPreviews[index].startsWith('blob:')) {
+            URL.revokeObjectURL(newPreviews[index]);
         }
+        newFiles[index] = file;
+        newPreviews[index] = URL.createObjectURL(file);
+        setImageFiles(newFiles);
+        setPreviewUrls(newPreviews);
     };
 
     const handleKeyFeatures = (content: string) => {
@@ -164,34 +142,29 @@ function EditProduct({ id }: IProps) {
     }
 
     const mutation = useMutation({
-        mutationFn: (variables: ICreateProduct) => editProduct(variables)
+        mutationFn: ({ id, formData }: { id: string; formData: FormData }) => editProduct({ id, formData })
     })
     const onSubmit: SubmitHandler<FormSchema> = (data) => {
+        const formData = new FormData();
+        formData.append('product_name', data.name);
+        formData.append('category_id', String(data.category));
+        formData.append('price', data.price);
+        formData.append('discount_rate', data.discount);
+        if (description) formData.append('description', description);
+        if (keyFeatures) formData.append('key_features', keyFeatures);
+        const videoLink = data.videoLink?.trim();
+        formData.append('video_link', videoLink || '');
+        // Only append image files if the user selected new ones
+        if (imageFiles[0]) formData.append('image_1', imageFiles[0]);
+        if (imageFiles[1]) formData.append('image_2', imageFiles[1]);
+        if (imageFiles[2]) formData.append('image_3', imageFiles[2]);
+        if (imageFiles[3]) formData.append('image_4', imageFiles[3]);
 
-
-        const payload: ICreateProduct = {
-            product_name: data.name,
-            category_id: String(data.category),
-            description: description,
-            price: data.price,
-            total_stock: "1000", // Assuming a default stock value
-            key_features: keyFeatures,
-            discount_rate: data.discount,
-            image_1: data.thumbnail1,
-            image_2: data.thumbnail2,
-            image_3: data.thumbnail3,
-            id,
-            image_4: data.thumbnail4 || null, // Allowing thumbnail4 to be optional
-            video_link: data.videoLink && data.videoLink.trim() !== '' ? data.videoLink : null, // Convert empty/whitespace strings to null
-        }
-
-        mutation.mutate(payload, {
+        mutation.mutate({ id, formData }, {
             onSuccess(data) {
                 toast.success(data.message);
                 reset();
                 router.back();
-                // Optionally, you can reset the form or redirect the user
-
             },
             onError(error: any) {
                 console.error('Error:', error);
@@ -218,11 +191,13 @@ function EditProduct({ id }: IProps) {
             setValue("discount", data?.data.discount_rate);
             setDescription(data?.data.description);
             setKeyFeatures(data?.data.key_features);
-            setValue("thumbnail1", data?.data.image_1);
-            setValue("thumbnail2", data?.data.image_2);
-            setValue("thumbnail3", data?.data.image_3);
-            setValue("thumbnail4", data?.data.image_4);
             setValue("videoLink", data?.data.video_link || "");
+            setPreviewUrls([
+                data?.data.image_1 || '',
+                data?.data.image_2 || '',
+                data?.data.image_3 || '',
+                data?.data.image_4 || '',
+            ]);
         }
     }, [data, setValue])
 
@@ -265,28 +240,28 @@ function EditProduct({ id }: IProps) {
 
                 <div className="w-[37%] px-4 py-6 bg-white rounded-md">
                     <div className="flex gap-x-6 flex-col gap-y-8">
-                        <div className={`flex w-full flex-col px-6 ${`${watch("thumbnail1") ? "bg-center bg-contain bg-no-repeat" : ""}`} rounded-md gap-y-4 bg-grey-75 h-[300px] gap-x-6 items-center justify-center`} style={watch("thumbnail1") ? { backgroundImage: `url(${watch("thumbnail1")})` } : {}}>
-                            {!watch("thumbnail1") && <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <div className={`flex w-full flex-col px-6 ${`${previewUrls[0] ? "bg-center bg-contain bg-no-repeat" : ""}`} rounded-md gap-y-4 bg-grey-75 h-[300px] gap-x-6 items-center justify-center`} style={previewUrls[0] ? { backgroundImage: `url(${previewUrls[0]})` } : {}}>
+                            {!previewUrls[0] && <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M28.4 38H9.86274C8.65111 38 8.04529 38 7.76477 37.7604C7.52136 37.5525 7.39218 37.2407 7.4173 36.9215C7.44624 36.5538 7.87462 36.1254 8.73137 35.2686L25.7373 18.2627C26.5293 17.4707 26.9253 17.0747 27.382 16.9263C27.7837 16.7958 28.2163 16.7958 28.618 16.9263C29.0747 17.0747 29.4707 17.4707 30.2627 18.2627L38 26V28.4M28.4 38C31.7603 38 33.4405 38 34.7239 37.346C35.8529 36.7708 36.7708 35.8529 37.346 34.7239C38 33.4405 38 31.7603 38 28.4M28.4 38H11.6C8.23968 38 6.55953 38 5.27606 37.346C4.14708 36.7708 3.2292 35.8529 2.65396 34.7239C2 33.4405 2 31.7603 2 28.4V11.6C2 8.23968 2 6.55953 2.65396 5.27606C3.2292 4.14708 4.14708 3.2292 5.27606 2.65396C6.55953 2 8.23969 2 11.6 2H28.4C31.7603 2 33.4405 2 34.7239 2.65396C35.8529 3.2292 36.7708 4.14708 37.346 5.27606C38 6.55953 38 8.23969 38 11.6V28.4M17 13C17 15.2091 15.2091 17 13 17C10.7909 17 9 15.2091 9 13C9 10.7909 10.7909 9 13 9C15.2091 9 17 10.7909 17 13Z" stroke="#475367" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
                             }
                         </div>
                         <div className="flex gap-x-6">
                             <div className={
-                                `flex w-full flex-col px-6 rounded-md ${watch("thumbnail2") ? "bg-center bg-contain bg-no-repeat" : ""} gap-y-4 bg-grey-75 h-[110px] gap-x-6 items-center justify-center`
+                                `flex w-full flex-col px-6 rounded-md ${previewUrls[1] ? "bg-center bg-contain bg-no-repeat" : ""} gap-y-4 bg-grey-75 h-[110px] gap-x-6 items-center justify-center`
                             }
-                                style={watch("thumbnail2") ? { backgroundImage: `url(${watch("thumbnail2")})` } : {}}>
-                                {!watch("thumbnail2") && <svg width="26" height="27" viewBox="0 0 26 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                style={previewUrls[1] ? { backgroundImage: `url(${previewUrls[1]})` } : {}}>
+                                {!previewUrls[1] && <svg width="26" height="27" viewBox="0 0 26 27" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M18.6 25.8174H6.24183C5.43407 25.8174 5.0302 25.8174 4.84318 25.6577C4.6809 25.5191 4.59479 25.3112 4.61153 25.0984C4.63083 24.8532 4.91641 24.5676 5.48758 23.9965L16.8248 12.6592C17.3529 12.1312 17.6169 11.8672 17.9213 11.7683C18.1891 11.6812 18.4776 11.6812 18.7454 11.7683C19.0498 11.8672 19.3138 12.1312 19.8418 12.6592L25 17.8174V19.4174M18.6 25.8174C20.8402 25.8174 21.9603 25.8174 22.816 25.3814C23.5686 24.9979 24.1805 24.386 24.564 23.6333C25 22.7777 25 21.6576 25 19.4174M18.6 25.8174H7.4C5.15979 25.8174 4.03969 25.8174 3.18404 25.3814C2.43139 24.9979 1.81947 24.386 1.43597 23.6333C1 22.7777 1 21.6576 1 19.4174V8.21738C1 5.97717 1 4.85707 1.43597 4.00142C1.81947 3.24877 2.43139 2.63685 3.18404 2.25336C4.03969 1.81738 5.15979 1.81738 7.4 1.81738H18.6C20.8402 1.81738 21.9603 1.81738 22.816 2.25336C23.5686 2.63685 24.1805 3.24877 24.564 4.00142C25 4.85707 25 5.97717 25 8.21738V19.4174M11 9.15072C11 10.6235 9.80609 11.8174 8.33333 11.8174C6.86057 11.8174 5.66667 10.6235 5.66667 9.15072C5.66667 7.67796 6.86057 6.48405 8.33333 6.48405C9.80609 6.48405 11 7.67796 11 9.15072Z" stroke="#475367" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                                 </svg>}
                                 {/* {watch('thumbnail1') && <p className='text-sm font-semibold text-grey-800'>{watch('thumbnail1')}</p>} */}
 
                             </div>
                             <div className={
-                                `flex w-full flex-col px-6 rounded-md ${watch("thumbnail3") ? "bg-center bg-contain bg-no-repeat" : ""} gap-y-4 bg-grey-75 h-[110px] gap-x-6 items-center justify-center`
+                                `flex w-full flex-col px-6 rounded-md ${previewUrls[2] ? "bg-center bg-contain bg-no-repeat" : ""} gap-y-4 bg-grey-75 h-[110px] gap-x-6 items-center justify-center`
                             }
-                                style={watch("thumbnail3") ? { backgroundImage: `url(${watch("thumbnail3")})` } : {}}>
-                                {!watch("thumbnail2")
+                                style={previewUrls[2] ? { backgroundImage: `url(${previewUrls[2]})` } : {}}>
+                                {!previewUrls[1]
                                     &&
                                     <svg width="26" height="27" viewBox="0 0 26 27" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M18.6 25.8174H6.24183C5.43407 25.8174 5.0302 25.8174 4.84318 25.6577C4.6809 25.5191 4.59479 25.3112 4.61153 25.0984C4.63083 24.8532 4.91641 24.5676 5.48758 23.9965L16.8248 12.6592C17.3529 12.1312 17.6169 11.8672 17.9213 11.7683C18.1891 11.6812 18.4776 11.6812 18.7454 11.7683C19.0498 11.8672 19.3138 12.1312 19.8418 12.6592L25 17.8174V19.4174M18.6 25.8174C20.8402 25.8174 21.9603 25.8174 22.816 25.3814C23.5686 24.9979 24.1805 24.386 24.564 23.6333C25 22.7777 25 21.6576 25 19.4174M18.6 25.8174H7.4C5.15979 25.8174 4.03969 25.8174 3.18404 25.3814C2.43139 24.9979 1.81947 24.386 1.43597 23.6333C1 22.7777 1 21.6576 1 19.4174V8.21738C1 5.97717 1 4.85707 1.43597 4.00142C1.81947 3.24877 2.43139 2.63685 3.18404 2.25336C4.03969 1.81738 5.15979 1.81738 7.4 1.81738H18.6C20.8402 1.81738 21.9603 1.81738 22.816 2.25336C23.5686 2.63685 24.1805 3.24877 24.564 4.00142C25 4.85707 25 5.97717 25 8.21738V19.4174M11 9.15072C11 10.6235 9.80609 11.8174 8.33333 11.8174C6.86057 11.8174 5.66667 10.6235 5.66667 9.15072C5.66667 7.67796 6.86057 6.48405 8.33333 6.48405C9.80609 6.48405 11 7.67796 11 9.15072Z" stroke="#475367" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -295,10 +270,10 @@ function EditProduct({ id }: IProps) {
 
                             </div>
                             <div className={
-                                `flex w-full flex-col px-6 rounded-md ${watch("thumbnail4") ? "bg-center bg-contain bg-no-repeat" : ""} gap-y-4 bg-grey-75 h-[110px] gap-x-6 items-center justify-center`
+                                `flex w-full flex-col px-6 rounded-md ${previewUrls[3] ? "bg-center bg-contain bg-no-repeat" : ""} gap-y-4 bg-grey-75 h-[110px] gap-x-6 items-center justify-center`
                             }
-                                style={watch("thumbnail4") ? { backgroundImage: `url(${watch("thumbnail4")})` } : {}}>
-                                {!watch("thumbnail3") &&
+                                style={previewUrls[3] ? { backgroundImage: `url(${previewUrls[3]})` } : {}}>
+                                {!previewUrls[2] &&
                                     <svg width="26" height="27" viewBox="0 0 26 27" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M18.6 25.8174H6.24183C5.43407 25.8174 5.0302 25.8174 4.84318 25.6577C4.6809 25.5191 4.59479 25.3112 4.61153 25.0984C4.63083 24.8532 4.91641 24.5676 5.48758 23.9965L16.8248 12.6592C17.3529 12.1312 17.6169 11.8672 17.9213 11.7683C18.1891 11.6812 18.4776 11.6812 18.7454 11.7683C19.0498 11.8672 19.3138 12.1312 19.8418 12.6592L25 17.8174V19.4174M18.6 25.8174C20.8402 25.8174 21.9603 25.8174 22.816 25.3814C23.5686 24.9979 24.1805 24.386 24.564 23.6333C25 22.7777 25 21.6576 25 19.4174M18.6 25.8174H7.4C5.15979 25.8174 4.03969 25.8174 3.18404 25.3814C2.43139 24.9979 1.81947 24.386 1.43597 23.6333C1 22.7777 1 21.6576 1 19.4174V8.21738C1 5.97717 1 4.85707 1.43597 4.00142C1.81947 3.24877 2.43139 2.63685 3.18404 2.25336C4.03969 1.81738 5.15979 1.81738 7.4 1.81738H18.6C20.8402 1.81738 21.9603 1.81738 22.816 2.25336C23.5686 2.63685 24.1805 3.24877 24.564 4.00142C25 4.85707 25 5.97717 25 8.21738V19.4174M11 9.15072C11 10.6235 9.80609 11.8174 8.33333 11.8174C6.86057 11.8174 5.66667 10.6235 5.66667 9.15072C5.66667 7.67796 6.86057 6.48405 8.33333 6.48405C9.80609 6.48405 11 7.67796 11 9.15072Z" stroke="#475367" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                                     </svg>
@@ -337,7 +312,7 @@ function EditProduct({ id }: IProps) {
                                     <input
                                         type="file"
                                         ref={fileInputRef}
-                                        onChange={(e) => handleImageUpload(e, "thumbnail1")}
+                                        onChange={(e) => handleImageSelect(e, 0)}
                                         className="hidden"
                                     />
                                 </div>
@@ -354,7 +329,7 @@ function EditProduct({ id }: IProps) {
                                     <input
                                         type="file"
                                         ref={fileInputRef2}
-                                        onChange={(e) => handleImageUpload(e, "thumbnail2")}
+                                        onChange={(e) => handleImageSelect(e, 1)}
                                         className="hidden"
                                     />
                                 </div>
@@ -371,7 +346,7 @@ function EditProduct({ id }: IProps) {
                                     <input
                                         type="file"
                                         ref={fileInputRef3}
-                                        onChange={(e) => handleImageUpload(e, "thumbnail3")}
+                                        onChange={(e) => handleImageSelect(e, 2)}
                                         className="hidden"
                                     />
                                 </div>
@@ -388,7 +363,7 @@ function EditProduct({ id }: IProps) {
                                     <input
                                         type="file"
                                         ref={fileInputRef4}
-                                        onChange={(e) => handleImageUpload(e, "thumbnail4")}
+                                        onChange={(e) => handleImageSelect(e, 3)}
                                         className="hidden"
                                     />
                                 </div>

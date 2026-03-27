@@ -12,8 +12,15 @@ import { IProductsResponse } from '../page'
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Street Light - Felicity Solar',
-  description: 'We have the best Solar products in town. Hybrid inverter, MPPT controller, Solar lithium battery, Gel battery, Solar all in one street light',
+  title: 'Felicity All-in-One Solar Street Lights | Buy in Nigeria',
+  description: 'Felicity all-in-one solar street lights in Nigeria. Ideal for roads, estates and commercial areas. Energy-efficient, low maintenance solar LED street lighting. Order online.',
+  keywords: ['felicity solar street light', 'all in one solar street light nigeria', 'solar street light nigeria', 'felicity solar street light price', 'solar led street light nigeria'],
+  openGraph: {
+    title: 'Felicity Solar Street Lights Nigeria',
+    description: 'Buy Felicity all-in-one solar street lights in Nigeria. Ideal for roads, estates and commercial properties.',
+    url: '/products/felicity-solar-street-light',
+    images: [{ url: '/assets/images/solar_street_light.jpg', alt: 'Felicity Solar Street Lights Nigeria' }],
+  },
 }
 
 async function page() {

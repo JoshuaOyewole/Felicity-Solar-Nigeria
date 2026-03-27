@@ -12,12 +12,16 @@ import { IProductsResponse } from '../page'
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Products - Felicity Solar',
-  description: 'We have the best Solar products in town. Hybrid inverter, MPPT controller, Solar lithium battery, Gel battery, Solar all in one street light',
-}
-
-async function page() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API}/products/category/3`, { next: { revalidate: 3600 } });
+  title: 'Felicity Hybrid Inverters Nigeria | 3KVA, 6KVA, 8KVA, 10KVA Price List',
+  description: 'Felicity hybrid inverters in Nigeria — 3KVA, 6KVA, 8KVA and 10KVA models. Best inverter prices with warranty. Compare specs and order online or find a dealer near you.',
+  keywords: ['felicity inverter', 'felicity hybrid inverter', 'felicity solar inverter', 'felicity inverter price in nigeria', '3kva felicity hybrid inverter', '6kva felicity inverter', '8kva felicity inverter', '10kva felicity inverter price in nigeria', 'felicity 8kva hybrid inverter', 'felicity 6kva hybrid inverter'],
+  openGraph: {
+    title: 'Felicity Hybrid Inverters Nigeria | 3KVA to 10KVA',
+    description: 'Buy Felicity hybrid inverters in Nigeria. 3KVA, 6KVA, 8KVA and 10KVA models with warranty. Best inverter prices.',
+    url: '/products/felicity-solar-inverter',
+    images: [{ url: '/assets/images/solar_street_light.jpg', alt: 'Felicity Hybrid Inverters Nigeria' }],
+  },
+}, { next: { revalidate: 3600 } });
   const response: IProductsResponse = await res.json();
   if (!response || !response.data) {
     return <p>No products available at the moment.</p>;

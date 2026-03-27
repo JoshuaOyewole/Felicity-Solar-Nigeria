@@ -12,11 +12,16 @@ import { IProductsResponse } from '../page'
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Charge Controllers - Felicity Solar',
-  description: 'We have the best Solar products in town. Hybrid inverter, MPPT controller, Solar lithium battery, Gel battery, Solar all in one street light',
+  title: 'Felicity MPPT Charge Controllers | Buy in Nigeria',
+  description: 'Genuine Felicity MPPT solar charge controllers in Nigeria. Maximum power point tracking for efficient solar energy harvest. View prices and order the right controller for your system.',
+  keywords: ['felicity charge controller', 'felicity mppt charge controller', 'felicity solar charge controller', 'mppt charge controller nigeria', 'solar charge controller nigeria'],
+  openGraph: {
+    title: 'Felicity MPPT Charge Controllers | Nigeria',
+    description: 'Buy genuine Felicity MPPT charge controllers in Nigeria. Best prices, fast delivery.',
+    url: '/products/felicity-charge-controller',
+    images: [{ url: '/assets/images/solar_street_light.jpg', alt: 'Felicity MPPT Charge Controllers' }],
+  },
 }
-
-const getProducts = async () => {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API}/products/category/5`, { next: { revalidate: 3600 } });
     const data: IProductsResponse = await res.json();

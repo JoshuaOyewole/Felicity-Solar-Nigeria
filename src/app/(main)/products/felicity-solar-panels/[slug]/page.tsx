@@ -41,8 +41,18 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
        
         return {
             title: `${product.product_name} | Felicity Solar`,
-            description: product.description.slice(0, 160), // Shorten description for SEO
+            description: product.description.slice(0, 160),
             openGraph: {
+                title: product.product_name,
+                description: product.description.slice(0, 160),
+                type: 'website',
+                siteName: 'Felicity Solar Nigeria',
+                images: [{ url: product.image_1, alt: product.product_name }],
+            },
+            twitter: {
+                card: 'summary_large_image',
+                title: product.product_name,
+                description: product.description.slice(0, 160),
                 images: [product.image_1],
             },
         };

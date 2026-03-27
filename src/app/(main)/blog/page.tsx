@@ -6,8 +6,15 @@ import { Metadata } from 'next'
 //
 
 export const metadata: Metadata = {
-    title: 'Blog - Felicity Solar',
-    description: 'We have the best Solar products in town. Hybrid inverter, MPPT controller, Solar lithium battery, Gel battery, Solar all in one street light',
+    title: 'Solar Energy Blog | Tips, Guides & News — Felicity Solar',
+    description: 'Felicity Solar Nigeria blog — inverter guides, battery price updates, solar installation tips and energy news for Nigerian homes and businesses.',
+    keywords: ['felicity solar blog', 'solar energy nigeria', 'solar inverter guide nigeria', 'felicity solar news', 'solar battery guide nigeria'],
+    openGraph: {
+      title: 'Felicity Solar Blog | Solar Tips & News Nigeria',
+      description: 'Solar guides, battery price updates, installation tips and energy news from Felicity Solar Nigeria.',
+      url: '/blog',
+      images: [{ url: '/assets/images/solar_street_light.jpg', alt: 'Felicity Solar Blog' }],
+    },
 }
 
 function index() {
