@@ -1,4 +1,5 @@
 import AOSInitializer from "@/components/AOSInitializer";
+import CookieConsent from "@/components/CookieConsent";
 import type { Metadata } from "next";
 import "./globals.css"
 import { Inter } from "next/font/google";
@@ -48,7 +49,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           crossOrigin="anonymous"
         />
       
-        {/* Google Analytics */}
+        {/* Google Analytics — consent mode defaults to denied until user accepts */}
         <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID}`}
           strategy="afterInteractive"
@@ -57,6 +58,13 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
+            gtag('consent', 'default', {
+              analytics_storage: 'denied',
+              ad_storage: 'denied',
+              ad_user_data: 'denied',
+              ad_personalization: 'denied',
+              wait_for_update: 500
+            });
             gtag('js', new Date());
             gtag('config', '${process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID}');
           `}
@@ -69,6 +77,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           </ReactQueryProvider>
         </I18nProvider>
         <ToastContainer />
+        <CookieConsent />
         <Analytics />
         {/* <SpeedInsights /> */}
       </body>

@@ -7,6 +7,7 @@ import { Facebook, Instagram, Linkedin, YoutubeIcon } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { company_nav_links, products_nav_links } from "@/lib/data";
 import type { IFooterData } from "./footer";
+import { CookieSettingsButton } from "@/components/CookieConsent";
 
 interface FooterClientProps {
   details: IFooterData | null;
@@ -17,21 +18,23 @@ export default function FooterClient({ details, currentYear }: FooterClientProps
   const { t } = useTranslation("common");
 
   const companyLinkKeys: Record<string, string> = {
-    "/about-us":        "nav.about",
-    "/project-showcase":"nav.project_showcase",
-    "/blog":            "nav.blog",
-    "/contact-us":      "nav.contact",
+    "/about-us": "nav.about",
+    "/project-showcase": "nav.project_showcase",
+    "/blog": "nav.blog",
+    "/contact-us": "nav.contact",
     "/find-installers": "nav.find_installers",
-    "/after-sales":     "nav.after_sales",
+    "/after-sales": "nav.after_sales",
+    "/privacy-policy": "Privacy Policy",
+    "/terms-of-service": "Terms of Service",
   };
 
   const productLinkKeys: Record<string, string> = {
-    "/products/felicity-solar-panels":       "nav.solar_panels",
-    "/products/felicity-solar-batteries":    "nav.batteries",
+    "/products/felicity-solar-panels": "nav.solar_panels",
+    "/products/felicity-solar-batteries": "nav.batteries",
     "/products/felicity-solar-street-light": "nav.street_lights",
-    "/products/felicity-solar-inverter":     "nav.inverters",
-    "/products/felicity-charge-controller":  "nav.charge_controllers",
-    "/products/felicity-solar-lights":       "nav.solar_light",
+    "/products/felicity-solar-inverter": "nav.inverters",
+    "/products/felicity-charge-controller": "nav.charge_controllers",
+    "/products/felicity-solar-lights": "nav.solar_light",
   };
 
   return (
@@ -105,6 +108,10 @@ export default function FooterClient({ details, currentYear }: FooterClientProps
               <YoutubeIcon size={20} color="white" />
             </Link>
           </div>
+          <div className="flex">
+            <CookieSettingsButton />
+          </div>
+
         </div>
 
         <p className="font-inter text-sm lg:text-base md:text-center text-white col-start-1 col-end-5">
@@ -114,6 +121,12 @@ export default function FooterClient({ details, currentYear }: FooterClientProps
             {t("footer.orisfina_tech")}
           </Link>
         </p>
+
+        <div className="flex flex-wrap gap-x-6 gap-y-2 col-start-1 col-end-5">
+          {/*       <Link href="/privacy-policy" className="text-white font-medium text-sm hover:text-primary transition-colors">Privacy Policy</Link>
+          <Link href="/terms-of-service" className="text-white font-medium text-sm hover:text-primary transition-colors">Terms of Service</Link> */}
+          {/*  <CookieSettingsButton /> */}
+        </div>
       </div>
     </footer>
   );

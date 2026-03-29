@@ -327,13 +327,21 @@ const company_nav_links = [
         url: "/contact-us",
         label: "Contact us"
     },
-    {
+   /*  {
         url: "/find-installers",
         label: "Find Installers"
-    },
+    }, */
     {
         url: "/after-sales",
         label: "After-Sales Service"
+    },
+    {
+        url: "/privacy-policy",
+        label: "Privacy Policy"
+    },
+    {
+        url: "/terms-of-service",
+        label: "Terms of Service"
     }
 ]
 
